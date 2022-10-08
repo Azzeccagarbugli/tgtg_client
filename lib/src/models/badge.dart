@@ -1,7 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-part 'badge.freezed.dart';
-part 'badge.g.dart';
+part "badge.freezed.dart";
+part "badge.g.dart";
 
 @freezed
 class Badge with _$Badge {

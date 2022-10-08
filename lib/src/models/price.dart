@@ -1,7 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-part 'price.freezed.dart';
-part 'price.g.dart';
+part "price.freezed.dart";
+part "price.g.dart";
 
 @freezed
 class Price with _$Price {

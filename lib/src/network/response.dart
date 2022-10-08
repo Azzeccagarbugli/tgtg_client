@@ -1,15 +1,13 @@
-import 'package:equatable/equatable.dart';
-import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
-import 'package:tgtg_client/src/network/request.dart';
+import "package:http/http.dart" as http;
+
+import "package:tgtg_client/src/network/request.dart";
 
 /// The response to a [Request].
 ///
 /// [T] is the type of the deserialized body.
 ///
 /// Before using [data] check that the response [hasData].
-@immutable
-class Response<T> extends Equatable {
+class Response<T> {
   /// Creates a new response.
   const Response({
     required this.request,
@@ -51,11 +49,11 @@ class Response<T> extends Equatable {
   /// [StateError] is thrown.
   T get() {
     if (!isOk) {
-      throw StateError('Request is not OK: $statusCode\n$body');
+      throw StateError("Request is not OK: $statusCode\n$body");
     }
 
     if (!hasData) {
-      throw StateError('Request has no data: $statusCode\n$body');
+      throw StateError("Request has no data: $statusCode\n$body");
     }
 
     return data!;
@@ -63,11 +61,28 @@ class Response<T> extends Equatable {
 
   @override
   String toString() {
-    return 'Response{isOk: $isOk, status: $statusCode}';
+    return "Response{isOk: $isOk, status: $statusCode}";
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props =>
-      [request, httpRequest, httpResponse, body, json, data];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Response<T> &&
+        other.request == request &&
+        other.httpRequest == httpRequest &&
+        other.httpResponse == httpResponse &&
+        other.body == body &&
+        other.json == json &&
+        other.data == data;
+  }
+
+  @override
+  int get hashCode {
+    return request.hashCode ^
+        httpRequest.hashCode ^
+        httpResponse.hashCode ^
+        body.hashCode ^
+        json.hashCode ^
+        data.hashCode;
+  }
 }

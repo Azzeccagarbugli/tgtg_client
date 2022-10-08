@@ -1,7 +1,7 @@
-import 'dart:math';
+import "dart:math";
 
-import 'package:tgtg_client/src/helpers/helpers.dart';
-import 'package:tgtg_client/src/tgtg_credentials.dart';
+import "package:tgtg_client/src/helpers/helpers.dart";
+import "package:tgtg_client/src/tgtg_credentials.dart";
 
 /// The settings for the [UnsplashClient].
 class TgTgSettings {
@@ -39,9 +39,9 @@ class TgTgSettings {
     }
 
     credentials ??= TgTgCredentials(
-      accessToken: '',
-      refreshToken: '',
-      userId: '',
+      accessToken: "",
+      refreshToken: "",
+      userId: "",
     );
 
     /// The defualt language is English.
@@ -92,7 +92,7 @@ class TgTgSettings {
   /// The lifetime in seconds of the access token used by the [TgTgClient].
   final int? accessTokenLifetime;
 
-  // The [DateTime] when the access token was last refreshed.
+  /// The [DateTime] when the access token was last refreshed.
   DateTime? lastTimeTokenRefreshed;
 
   /// The device type used by the [TgTgClient].
@@ -117,6 +117,7 @@ class TgTgSettings {
     return copyWith(userAgent: _getDefaultUserAgent());
   }
 
+  /// Returns a copy of the current [TgTgSettings] with the provided fields.
   TgTgSettings copyWith({
     TgTgCredentials? credentials,
     String? email,
@@ -144,6 +145,6 @@ class TgTgSettings {
 
   @override
   String toString() {
-    return 'TgTgSettings{credentials: $credentials, email: $email, userAgent: $userAgent, language: $language, proxies: $proxies, timeout: $timeout, accessTokenLifetime: $accessTokenLifetime, deviceType: $deviceType}';
+    return "TgTgSettings{credentials: $credentials, email: $email, userAgent: $userAgent, language: $language, proxies: $proxies, timeout: $timeout, accessTokenLifetime: $accessTokenLifetime, deviceType: $deviceType}";
   }
 }

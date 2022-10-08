@@ -1,7 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-part 'lat_lng.freezed.dart';
-part 'lat_lng.g.dart';
+part "lat_lng.freezed.dart";
+part "lat_lng.g.dart";
 
 @freezed
 class LatLng with _$LatLng {

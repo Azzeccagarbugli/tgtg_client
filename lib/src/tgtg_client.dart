@@ -1,6 +1,7 @@
-import 'package:http/http.dart' as http;
-import 'package:tgtg_client/src/helpers/constants.dart';
-import 'package:tgtg_client/tgtg_client.dart';
+import "dart:developer";
+
+import "package:http/http.dart" as http;
+import "package:tgtg_client/tgtg_client.dart";
 
 /// A client for accessing the **Too Good Too Go** API.
 ///
@@ -25,10 +26,17 @@ class TgTgClient {
   final TgTgSettings settings;
 
   final http.Client _http;
+
+  /// Get the [http.Client] used by this client.
   http.Client get httpClient => _http;
 
   var _closed = false;
+
+  /// Check if the [http.Client] is closed.
   bool get isClosed => _closed;
+
+  /// Provides access to resources related to [User].
+  TgTgItems get items => TgTgItems(this);
 
   /// Refreshes the access token.
   Future<void> _refreshToken() async {
@@ -45,7 +53,7 @@ class TgTgClient {
       }
 
       /// Response body.
-      Response? response;
+      Response<TgTgCredentials>? response;
 
       final req = Request(
         client: this,
@@ -67,8 +75,8 @@ class TgTgClient {
         final c = settings.credentials!;
         final refreshResponse = response.json as Map<String, dynamic>;
 
-        c.accessToken = refreshResponse['access_token'] as String;
-        c.refreshToken = refreshResponse['refresh_token'] as String;
+        c.accessToken = refreshResponse["access_token"] as String;
+        c.refreshToken = refreshResponse["refresh_token"] as String;
         settings.lastTimeTokenRefreshed = DateTime.now();
       } else {
         throw Exception("${response.statusCode} ${response.body}");
@@ -83,7 +91,7 @@ class TgTgClient {
     final email = settings.email;
 
     /// Response body.
-    Response? response;
+    Response<TgTgCredentials>? response;
 
     for (final _ in List.generate(maxPollingTries, (_) {}, growable: false)) {
       final req = Request(
@@ -105,21 +113,21 @@ class TgTgClient {
       response = await req.go();
 
       if (response.statusCode == 202) {
-        // ignore: avoid_print
-        print(
+        // ignore: avoid_log
+        log(
           "\nCheck your mailbox on PC to continue... "
           "(Mailbox on mobile won't work, if you have installed Too Good Too Go app.)\n",
         );
-        await Future.delayed(pollingWaitTime);
+        await Future<dynamic>.delayed(pollingWaitTime);
         continue;
       } else if (response.isOk) {
-        // ignore: avoid_print
-        print('Logged In!');
+        // ignore: avoid_log
+        log("Logged In!");
         final loginResponse = response.json as Map<String, dynamic>;
         final c = settings.credentials!;
 
-        c.accessToken = loginResponse['access_token'] as String;
-        c.refreshToken = loginResponse['refresh_token'] as String;
+        c.accessToken = loginResponse["access_token"] as String;
+        c.refreshToken = loginResponse["refresh_token"] as String;
         // ignore: avoid_dynamic_calls
         c.userId = loginResponse["startup_data"]["user"]["user_id"] as String;
 
@@ -159,18 +167,8 @@ class TgTgClient {
       );
     }
 
-    final checkCred = credentials?.accessToken == null ||
-        credentials?.refreshToken == null ||
-        credentials?.userId == null;
-
-    if (email == null || (credentials != null && checkCred)) {
-      throw Exception(
-        "You must provide at least email or accessToken, refreshToken and userId",
-      );
-    }
-
     /// Response body.
-    Response? response;
+    Response<TgTgCredentials>? response;
 
     if (credentials != null && credentials.isAlreadyLogged) {
       await _refreshToken();
@@ -228,7 +226,7 @@ class TgTgClient {
   /// Failure to close this a client might cause the dart process to hang.
   ///
   /// After this method has been called this instance must not be used any more.
-  void close() {
+  void dispose() {
     _closed = true;
     _http.close();
   }

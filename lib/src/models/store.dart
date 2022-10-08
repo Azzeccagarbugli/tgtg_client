@@ -1,9 +1,9 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:tgtg_client/src/models/location.dart';
-import 'package:tgtg_client/src/models/picture.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:tgtg_client/src/models/location.dart";
+import "package:tgtg_client/src/models/picture.dart";
 
-part 'store.freezed.dart';
-part 'store.g.dart';
+part "store.freezed.dart";
+part "store.g.dart";
 
 @freezed
 class Store with _$Store {

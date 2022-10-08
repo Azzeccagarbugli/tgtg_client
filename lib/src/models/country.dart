@@ -1,7 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-part 'country.freezed.dart';
-part 'country.g.dart';
+part "country.freezed.dart";
+part "country.g.dart";
 
 @freezed
 class Country with _$Country {

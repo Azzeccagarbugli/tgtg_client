@@ -10,6 +10,15 @@ class TgTgCredentials {
     required this.userId,
   });
 
+  /// Deserializes [TgTgCredentials] from [json].
+  factory TgTgCredentials.fromJson(Map<String, dynamic> json) {
+    return TgTgCredentials(
+      accessToken: json["access_token"] as String?,
+      refreshToken: json["refresh_token"] as String?,
+      userId: json["user_id"] as String?,
+    );
+  }
+
   /// The access token of the app these [TgTgCredentials] belong to.
   String? accessToken;
 
@@ -39,22 +48,13 @@ class TgTgCredentials {
   /// Serializes this instance to json.
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'access_token': accessToken,
-      'refresh_token': refreshToken,
-      'user_id': userId,
+      "access_token": accessToken,
+      "refresh_token": refreshToken,
+      "user_id": userId,
     };
-  }
-
-  /// Deserializes [TgTgCredentials] from [json].
-  factory TgTgCredentials.fromJson(Map<String, dynamic> json) {
-    return TgTgCredentials(
-      accessToken: json['access_token'] as String?,
-      refreshToken: json['refresh_token'] as String?,
-      userId: json['user_id'] as String?,
-    );
   }
 
   @override
   String toString() =>
-      'Credentials{accessToken: $accessToken, refreshToken: $refreshToken, userId: $userId}';
+      "Credentials{accessToken: $accessToken, refreshToken: $refreshToken, userId: $userId}";
 }

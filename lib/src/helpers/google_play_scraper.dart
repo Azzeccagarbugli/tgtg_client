@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import "dart:convert";
+import "package:http/http.dart" as http;
 
 /// RegEx used to extract the version number from the PlayStore link.
 final regexScript = RegExp(
@@ -16,6 +16,7 @@ const playStoreUrl =
 /// The following code reflect the Python implementation
 /// found on [GitHub](https://github.com/ahivert/tgtg-python/blob/master/tgtg/google_play_scraper.py).
 class GooglePlayScraper {
+  /// Creates a new instance of the [GooglePlayScraper].
   GooglePlayScraper({
     String? url,
   }) : _url = url ?? playStoreUrl;

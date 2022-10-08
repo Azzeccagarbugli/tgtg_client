@@ -1,11 +1,10 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:equatable/equatable.dart';
-import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
-import 'package:tgtg_client/src/network/response.dart';
-import 'package:tgtg_client/src/network/utils.dart';
-import 'package:tgtg_client/src/tgtg_client.dart';
+import "package:http/http.dart" as http;
+
+import "package:tgtg_client/src/network/response.dart";
+import "package:tgtg_client/src/network/utils.dart";
+import "package:tgtg_client/src/tgtg_client.dart";
 
 /// A request holds all the information necessary to make a request to the API.
 ///
@@ -16,8 +15,7 @@ import 'package:tgtg_client/src/tgtg_client.dart';
 /// [go].
 ///
 /// The internal state of [httpRequest] and [jsonBody] should not be mutated.
-@immutable
-class Request<T> extends Equatable {
+class Request<T> {
   /// Creates a new request.
   const Request({
     required this.client,
@@ -49,7 +47,7 @@ class Request<T> extends Equatable {
   Future<Response<T>> go() async {
     if (client.isClosed) {
       throw Exception(
-        'Cannot execute request because TgTgClient has already been closed',
+        "Cannot execute request because TgTgClient has already been closed",
       );
     }
 
@@ -58,12 +56,6 @@ class Request<T> extends Equatable {
     String body;
     dynamic json;
     T? data;
-
-    // print('Sending request:\n${printRequest(httpRequest)}\n');
-    // print('Sending request:\n${printRequest(httpRequest)}');
-    // print('Received response:\n${printResponse(httpResponse)}\n');
-    // print('Received response:\n${printResponse(httpResponse)}');
-
     httpResponse = await client.httpClient.send(httpRequest);
 
     body = await httpResponse.stream.bytesToString();
@@ -121,7 +113,7 @@ class Request<T> extends Equatable {
     };
 
     if (jsonBody != null) {
-      headers.addAll({'Content-Type': 'application/json; charset=utf-8'});
+      headers.addAll({"Content-Type": "application/json"});
     }
 
     final credentials = client.settings.credentials;
@@ -135,9 +127,24 @@ class Request<T> extends Equatable {
 
   @override
   String toString() {
-    return 'Request{method: ${httpRequest.method}, url: ${httpRequest.url}}';
+    return "Request{method: ${httpRequest.method}, url: ${httpRequest.url}}";
   }
 
   @override
-  List<Object?> get props => [client, httpRequest, jsonBody, bodyDeserializer];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Request<T> &&
+        other.client == client &&
+        other.httpRequest == httpRequest &&
+        other.jsonBody == jsonBody &&
+        other.bodyDeserializer == bodyDeserializer;
+  }
+
+  @override
+  int get hashCode {
+    return client.hashCode ^
+        httpRequest.hashCode ^
+        jsonBody.hashCode ^
+        bodyDeserializer.hashCode;
+  }
 }

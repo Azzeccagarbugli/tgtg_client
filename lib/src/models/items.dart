@@ -1,10 +1,10 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:tgtg_client/src/models/item.dart';
-import 'package:tgtg_client/src/models/location.dart';
-import 'package:tgtg_client/src/models/store.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:tgtg_client/src/models/item.dart";
+import "package:tgtg_client/src/models/location.dart";
+import "package:tgtg_client/src/models/store.dart";
 
-part 'items.freezed.dart';
-part 'items.g.dart';
+part "items.freezed.dart";
+part "items.g.dart";
 
 @freezed
 class Items with _$Items {
