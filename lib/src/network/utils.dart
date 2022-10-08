@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
-import 'package:tgtg_client/src/app_credentials.dart';
 import 'package:tgtg_client/src/network/request.dart';
+import 'package:tgtg_client/src/tgtg_credentials.dart';
 
 Map<String, String> publicActionAuthHeader(TgTgCredentials credentials) {
   return {'Authorization': 'Client-ID ${credentials.accessToken}'};

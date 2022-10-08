@@ -1,6 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'package:tgtg_client/src/tgtg_settings.dart';
 
+/// The base url of the Too Good Too Go API.
+const _baseUrl = "https://apptoogoodtogo.com/api/";
+
 /// A client for accessing the **Too Good Too Go** API.
 ///
 /// Http calls are made through the [http](https://pub.dev/packages/http)
@@ -17,8 +20,8 @@ class TgTgClient {
     http.Client? httpClient,
   }) : _http = httpClient ?? http.Client();
 
-  /// The base url of the Too Good Too Go API.
-  final Uri baseUrl = Uri.parse('https://apptoogoodtogo.com/api/');
+  /// The URI for the base url of the Too Good Too Go API.
+  final Uri baseUrl = Uri.parse(_baseUrl);
 
   /// The [TgTgSettings] used by this client.
   final TgTgSettings settings;

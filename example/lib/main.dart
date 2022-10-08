@@ -1,13 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'package:tgtg_client/tgtg_client.dart';
 
-void main() {
-  const settings = TgTgSettings(
-    email: 'f.coppola1998@gmail.com',
-  );
+Future<void> main() async {
+  final settings = await TgTgSettings.instance();
 
-  final tgtgClient = TgTgClient(
-    settings: settings,
-  );
-
-  print(tgtgClient);
+  print(settings.userAgent);
 }
