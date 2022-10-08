@@ -1,1 +1,4 @@
 include: package:lint/analysis_options_package.yaml
+
+analyzer:
+  exclude: [build/**, lib/**.freezed.dart, lib/**.g.dart]
