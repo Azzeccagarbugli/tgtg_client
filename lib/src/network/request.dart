@@ -48,7 +48,7 @@ class Request<T> extends Equatable {
   /// Might reject with [http.ClientException] during a network failure.
   Future<Response<T>> go() async {
     if (client.isClosed) {
-      throw StateError(
+      throw Exception(
         'Cannot execute request because TgTgClient has already been closed',
       );
     }
@@ -59,14 +59,12 @@ class Request<T> extends Equatable {
     dynamic json;
     T? data;
 
-    print('Sending request:\n${printRequest(httpRequest)}\n');
+    // print('Sending request:\n${printRequest(httpRequest)}\n');
+    // print('Sending request:\n${printRequest(httpRequest)}');
+    // print('Received response:\n${printResponse(httpResponse)}\n');
+    // print('Received response:\n${printResponse(httpResponse)}');
 
-    print('Sending request:\n${printRequest(httpRequest)}');
     httpResponse = await client.httpClient.send(httpRequest);
-
-    print('Received response:\n${printResponse(httpResponse)}\n');
-
-    print('Received response:\n${printResponse(httpResponse)}');
 
     body = await httpResponse.stream.bytesToString();
 
@@ -117,15 +115,20 @@ class Request<T> extends Equatable {
 
   Map<String, String> _createHeaders() {
     final headers = <String, String>{
-      'Accept-Version': 'v1',
-      'Accept': 'application/json',
+      "User-Agent": client.settings.userAgent!,
+      "Accept-Language": client.settings.language!,
+      "Accept-Encoding": "gzip",
     };
 
     if (jsonBody != null) {
       headers.addAll({'Content-Type': 'application/json; charset=utf-8'});
     }
 
-    headers.addAll(publicActionAuthHeader(client.settings.credentials!));
+    final credentials = client.settings.credentials;
+
+    if (credentials != null && credentials.isAlreadyLogged) {
+      headers.addAll(publicActionAuthHeader(client.settings.credentials!));
+    }
 
     return headers;
   }

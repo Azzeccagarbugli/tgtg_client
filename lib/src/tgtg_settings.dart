@@ -14,6 +14,7 @@ class TgTgSettings {
     this.proxies,
     this.timeout,
     this.accessTokenLifetime,
+    this.lastTimeTokenRefreshed,
     this.deviceType,
   });
 
@@ -28,16 +29,23 @@ class TgTgSettings {
     List<String>? proxies,
     int? timeout,
     int? accessTokenLifetime,
+    DateTime? lastTimeTokenRefreshed,
     String? deviceType,
   }) async {
     if (credentials == null && email == null) {
-      throw ArgumentError(
+      throw Exception(
         "Either one of credentials or email fields must be provided.",
       );
     }
 
+    credentials ??= TgTgCredentials(
+      accessToken: '',
+      refreshToken: '',
+      userId: '',
+    );
+
     /// The defualt language is English.
-    const langEn = "en";
+    const langEn = "en-UK";
 
     /// The numbers of seconds in a hour multpiplied by 4.
     const fourHours = 3600 * 4;
@@ -53,6 +61,7 @@ class TgTgSettings {
       proxies: proxies,
       timeout: timeout,
       accessTokenLifetime: accessTokenLifetime ?? fourHours,
+      lastTimeTokenRefreshed: lastTimeTokenRefreshed,
       deviceType: deviceType?.toUpperCase() ?? androidDevice,
     )._initAsync();
   }
@@ -82,6 +91,9 @@ class TgTgSettings {
 
   /// The lifetime in seconds of the access token used by the [TgTgClient].
   final int? accessTokenLifetime;
+
+  // The [DateTime] when the access token was last refreshed.
+  DateTime? lastTimeTokenRefreshed;
 
   /// The device type used by the [TgTgClient].
   final String? deviceType;
@@ -113,6 +125,7 @@ class TgTgSettings {
     List<String>? proxies,
     int? timeout,
     int? accessTokenLifetime,
+    DateTime? lastTimeTokenRefreshed,
     String? deviceType,
   }) {
     return TgTgSettings._(
@@ -123,12 +136,14 @@ class TgTgSettings {
       proxies: proxies ?? this.proxies,
       timeout: timeout ?? this.timeout,
       accessTokenLifetime: accessTokenLifetime ?? this.accessTokenLifetime,
+      lastTimeTokenRefreshed:
+          lastTimeTokenRefreshed ?? this.lastTimeTokenRefreshed,
       deviceType: deviceType ?? this.deviceType,
     );
   }
 
   @override
   String toString() {
-    return 'TgTgSettings(credentials: $credentials, email: $email, userAgent: $userAgent, language: $language, proxies: $proxies, timeout: $timeout, accessTokenLifetime: $accessTokenLifetime, deviceType: $deviceType)';
+    return 'TgTgSettings{credentials: $credentials, email: $email, userAgent: $userAgent, language: $language, proxies: $proxies, timeout: $timeout, accessTokenLifetime: $accessTokenLifetime, deviceType: $deviceType}';
   }
 }
