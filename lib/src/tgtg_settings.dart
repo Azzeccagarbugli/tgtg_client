@@ -10,6 +10,11 @@ class TgTgSettings {
     this.credentials,
     this.email,
     this.userAgent,
+    this.language,
+    this.proxies,
+    this.timeout,
+    this.accessTokenLifetime,
+    this.deviceType,
   });
 
   /// Creates new [TgTgSettings].
@@ -18,6 +23,12 @@ class TgTgSettings {
   static Future<TgTgSettings> instance({
     TgTgCredentials? credentials,
     String? email,
+    String? userAgent,
+    String? language,
+    List<String>? proxies,
+    int? timeout,
+    int? accessTokenLifetime,
+    String? deviceType,
   }) async {
     if (credentials == null && email == null) {
       throw ArgumentError(
@@ -25,9 +36,24 @@ class TgTgSettings {
       );
     }
 
+    /// The defualt language is English.
+    const langEn = "en";
+
+    /// The numbers of seconds in a hour multpiplied by 4.
+    const fourHours = 3600 * 4;
+
+    /// The default device type is Android.
+    const androidDevice = "ANDROID";
+
     return TgTgSettings._(
       credentials: credentials,
       email: email,
+      userAgent: userAgent,
+      language: language ?? langEn,
+      proxies: proxies,
+      timeout: timeout,
+      accessTokenLifetime: accessTokenLifetime ?? fourHours,
+      deviceType: deviceType?.toUpperCase() ?? androidDevice,
     )._initAsync();
   }
 
@@ -44,6 +70,21 @@ class TgTgSettings {
 
   /// The user agent used by the [TgTgClient] to authenticate the user.
   final String? userAgent;
+
+  /// The language used by the [TgTgClient].
+  final String? language;
+
+  /// The list of proxies used by the [TgTgClient].
+  final List<String>? proxies;
+
+  /// The timeouts used by the [TgTgClient].
+  final int? timeout;
+
+  /// The lifetime in seconds of the access token used by the [TgTgClient].
+  final int? accessTokenLifetime;
+
+  /// The device type used by the [TgTgClient].
+  final String? deviceType;
 
   /// Get a random default user agent.
   String _getDefaultUserAgent() {
@@ -68,16 +109,26 @@ class TgTgSettings {
     TgTgCredentials? credentials,
     String? email,
     String? userAgent,
+    String? language,
+    List<String>? proxies,
+    int? timeout,
+    int? accessTokenLifetime,
+    String? deviceType,
   }) {
     return TgTgSettings._(
       credentials: credentials ?? this.credentials,
       email: email ?? this.email,
       userAgent: userAgent ?? this.userAgent,
+      language: language ?? this.language,
+      proxies: proxies ?? this.proxies,
+      timeout: timeout ?? this.timeout,
+      accessTokenLifetime: accessTokenLifetime ?? this.accessTokenLifetime,
+      deviceType: deviceType ?? this.deviceType,
     );
   }
 
   @override
   String toString() {
-    return 'TgTgSettings{credentials: $credentials}';
+    return 'TgTgSettings(credentials: $credentials, email: $email, userAgent: $userAgent, language: $language, proxies: $proxies, timeout: $timeout, accessTokenLifetime: $accessTokenLifetime, deviceType: $deviceType)';
   }
 }
