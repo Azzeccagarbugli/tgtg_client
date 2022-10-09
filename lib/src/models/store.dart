@@ -12,7 +12,6 @@ class Store with _$Store {
     String? storeName,
     String? branch,
     String? description,
-    String? taxIdentifier,
     String? website,
     Location? storeLocation,
     Picture? logoPicture,
@@ -20,6 +19,9 @@ class Store with _$Store {
     bool? hidden,
     int? favoriteCount,
     bool? weCare,
+    double? distance,
+    Picture? coverPicture,
+    bool? isManufacturer,
   }) = _Store;
 
   factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
