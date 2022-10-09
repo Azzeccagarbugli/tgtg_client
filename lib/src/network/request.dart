@@ -113,7 +113,14 @@ class Request<T> {
     };
 
     if (jsonBody != null) {
-      headers.addAll({"Content-Type": "application/json"});
+      headers.addAll({
+        "Content-Type": "application/json",
+        "Cookie":
+            "datadome=jTGS2lmxQum5kuByEXWzP-w5YLhfLKx9u-IIO9WDKcYFVXm85HKFwr3EJRb4FyYvK69w5_xQ_pUKirMshTtgvSU1PUgC6mdeBiEno8X5lvFlT_E-dKez5ZL6OBD3RKQ",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "Cache-Control": "no-cache",
+      });
     }
 
     final credentials = client.settings.credentials;

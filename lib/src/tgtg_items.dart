@@ -38,8 +38,8 @@ class TgTgItems {
   }) async {
     await client.login();
 
-    final jsonBody = {
-      "user_id": client.settings.credentials!.userId,
+    final jsonBody = <String, dynamic>{
+      "user_id": 52669419,
       "origin": {"latitude": latitude, "longitude": longitude},
       "radius": radius,
       "page_size": pageSize,
@@ -65,9 +65,9 @@ class TgTgItems {
 
     final res = await req.go();
 
-    log(res.httpRequest.headers.toString());
+    log(res.httpRequest.toString());
 
-    if (res.isOk) {
+    if (res.statusCode == 200) {
       return req.goAndGet();
     } else if (res.statusCode == 403) {
       throw Exception(
@@ -115,8 +115,9 @@ class TgTgItems {
 /// Deserializes the [body] into a list of [Items].
 List<Items> _itemsFromJson(String str) => List<Items>.from(
       // ignore: avoid_dynamic_calls
-      json.decode(str).map(
-            (dynamic x) => Items.fromJson(
+      json.decode(str)["items"].map(
+            // ignore: inference_failure_on_untyped_parameter
+            (x) => Items.fromJson(
               x as Map<String, dynamic>,
             ),
           ) as Iterable<dynamic>,

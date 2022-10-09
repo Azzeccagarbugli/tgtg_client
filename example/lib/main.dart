@@ -17,16 +17,16 @@ Future<void> main() async {
 
   final allItems = await client.items.getAll(
     favoritesOnly: false,
-    latitude: -48.0,
-    longitude: 1.73,
+    latitude: 51.44,
+    longitude: 5.46,
     radius: 10,
   );
 
-  log(allItems.toList().toString());
+  log(allItems.toString());
 
-  final itemById = await client.items.getById(
-    id: "5f9b5b9b-8b8f-4b9c-8c1c-8c1c8c1c8c1c",
-  );
+  // final itemById = await client.items.getById(
+  //   id: "5f9b5b9b-8b8f-4b9c-8c1c-8c1c8c1c8c1c",
+  // );
 
-  log(itemById.toString());
+  // log(itemById.toString());
 }
