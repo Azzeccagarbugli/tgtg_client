@@ -10,6 +10,18 @@ class TgTgCredentials {
     required this.userId,
   });
 
+  /// The empty constuctor of the [TgTgCredentials]
+  /// used by the [TgTgSettings].
+  TgTgCredentials.empty({
+    String? accessToken,
+    String? refreshToken,
+    String? userId,
+  }) : this(
+          accessToken: accessToken ?? "",
+          refreshToken: refreshToken ?? "",
+          userId: userId ?? "",
+        );
+
   /// Deserializes [TgTgCredentials] from [json].
   factory TgTgCredentials.fromJson(Map<String, dynamic> json) {
     return TgTgCredentials(

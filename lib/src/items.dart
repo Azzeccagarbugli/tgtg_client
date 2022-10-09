@@ -1,8 +1,7 @@
-import "dart:convert";
 import "dart:developer";
 
 import "package:http/http.dart" as http;
-import "package:tgtg_client/src/models/items.dart";
+import "package:tgtg_client/src/models/items/items.dart";
 import "package:tgtg_client/tgtg_client.dart";
 
 /// Provides access to resources related to [Items].
@@ -39,7 +38,7 @@ class TgTgItems {
     await client.login();
 
     final jsonBody = <String, dynamic>{
-      "user_id": 52669419,
+      "user_id": client.settings.credentials!.userId,
       "origin": {"latitude": latitude, "longitude": longitude},
       "radius": radius,
       "page_size": pageSize,
@@ -59,7 +58,7 @@ class TgTgItems {
     final req = Request(
       client: client,
       httpRequest: http.Request("POST", baseUrl),
-      bodyDeserializer: (body) => _itemsFromJson(body as String),
+      bodyDeserializer: (body) => itemsFromJson(body as Map<String, dynamic>),
       jsonBody: jsonBody,
     );
 
@@ -106,19 +105,41 @@ class TgTgItems {
       );
     } else {
       throw Exception(
-        "Items not fetched - Stauts code: ${res.statusCode}",
+        "Item not present (check the inserted code) - Stauts code: ${res.statusCode}",
+      );
+    }
+  }
+
+  /// Set an [Item] as a favorite.
+  Future<bool> setFavorite({
+    required String id,
+    required bool isFavorite,
+  }) async {
+    await client.login();
+
+    final url = baseUrl.resolve("$id/setFavorite");
+
+    final req = Request<bool>(
+      client: client,
+      httpRequest: http.Request("POST", url),
+      jsonBody: {
+        "user_id": client.settings.credentials!.userId,
+        "is_favorite": isFavorite,
+      },
+    );
+
+    final res = await req.go();
+
+    if (res.isOk) {
+      return true;
+    } else if (res.statusCode == 403) {
+      throw Exception(
+        "Not authorized, probably you should check the app and confirm your identity.",
+      );
+    } else {
+      throw Exception(
+        "Item not present (check the inserted code) - Stauts code: ${res.statusCode}",
       );
     }
   }
 }
-
-/// Deserializes the [body] into a list of [Items].
-List<Items> _itemsFromJson(String str) => List<Items>.from(
-      // ignore: avoid_dynamic_calls
-      json.decode(str)["items"].map(
-            // ignore: inference_failure_on_untyped_parameter
-            (x) => Items.fromJson(
-              x as Map<String, dynamic>,
-            ),
-          ) as Iterable<dynamic>,
-    );

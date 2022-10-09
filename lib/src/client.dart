@@ -19,6 +19,33 @@ class TgTgClient {
     http.Client? httpClient,
   }) : _http = httpClient ?? http.Client();
 
+  /// The named constructor to sign up
+  /// to the **Too Good Too Go** platform.
+  TgTgClient.signUp({
+    required String email,
+    required String name,
+    required String countryId,
+    required String language,
+    required bool newsletterOptIn,
+    required bool pushNotificationOptIn,
+    required String deviceType,
+    TgTgSettings? settingsEmail,
+    http.Client? httpClient,
+  })  : _http = httpClient ?? http.Client(),
+        settings = settingsEmail ??
+            TgTgSettings.empty(
+              language: language,
+            ) {
+    _signUp(
+      countryId: countryId,
+      email: email,
+      name: name,
+      newsletterOptIn: newsletterOptIn,
+      pushNotificationOptIn: pushNotificationOptIn,
+      deviceType: deviceType,
+    );
+  }
+
   /// The URI for the base url of the Too Good Too Go API.
   final Uri baseUrl = Uri.parse(baseUrlTgTg);
 
@@ -35,8 +62,11 @@ class TgTgClient {
   /// Check if the [http.Client] is closed.
   bool get isClosed => _closed;
 
-  /// Provides access to resources related to [User].
+  /// Provides access to resources related to [Items].
   TgTgItems get items => TgTgItems(this);
+
+  /// Provides access to resources related to [Orders].
+  TgTgOrders get orders => TgTgOrders(this);
 
   /// Refreshes the access token.
   Future<void> _refreshToken() async {
@@ -218,6 +248,63 @@ class TgTgClient {
           throw Exception("${response.statusCode} ${response.body}");
         }
       }
+    }
+  }
+
+  /// Sign up to **Too Good Too Go**.
+  ///
+  /// The client will sign up the provider email
+  /// to the **Too Good Too Go** platform.
+  Future<void> _signUp({
+    required String email,
+    required String name,
+    required String countryId,
+    required bool newsletterOptIn,
+    required bool pushNotificationOptIn,
+    required String deviceType,
+  }) async {
+    /// Response body.
+    Response<TgTgCredentials>? response;
+
+    final jsonBody = <String, dynamic>{
+      "email": email,
+      "name": name,
+      "device_type": deviceType.toUpperCase(),
+      "country_id": countryId,
+      "newsletter_opt_in": newsletterOptIn,
+      "push_notification_opt_in": pushNotificationOptIn,
+    };
+
+    final req = Request(
+      client: this,
+      httpRequest: http.Request(
+        "POST",
+        baseUrl.resolve(signUpByEmail),
+      ),
+      bodyDeserializer: (body) => TgTgCredentials.fromJson(
+        body as Map<String, dynamic>,
+      ),
+      jsonBody: jsonBody,
+    );
+
+    response = await req.go();
+
+    if (response.isOk) {
+      final loginResponse = (response.json
+          as Map<String, dynamic>)["login_response"] as Map<String, dynamic>;
+      final c = settings.credentials!;
+
+      c.accessToken = loginResponse["access_token"] as String;
+      c.refreshToken = loginResponse["refresh_token"] as String;
+      // ignore: avoid_dynamic_calls
+      c.userId = loginResponse["startup_data"]["user"]["user_id"] as String;
+
+      /// Refresh token.
+      settings.lastTimeTokenRefreshed = DateTime.now();
+    } else {
+      throw Exception(
+        "${response.statusCode} ${response.body}",
+      );
     }
   }
 

@@ -1,7 +1,7 @@
 import "dart:math";
 
+import "package:tgtg_client/src/credentials.dart";
 import "package:tgtg_client/src/helpers/helpers.dart";
-import "package:tgtg_client/src/tgtg_credentials.dart";
 
 /// The settings for the [UnsplashClient].
 class TgTgSettings {
@@ -17,6 +17,29 @@ class TgTgSettings {
     this.lastTimeTokenRefreshed,
     this.deviceType,
   });
+
+  /// The empty constuctor of the [TgTgSettings] used by the client.
+  TgTgSettings.empty({
+    TgTgCredentials? credentials,
+    String? email,
+    String? userAgent,
+    String? language,
+    List<String>? proxies,
+    int? timeout,
+    int? accessTokenLifetime,
+    DateTime? lastTimeTokenRefreshed,
+    String? deviceType,
+  }) : this._(
+          credentials: credentials ?? TgTgCredentials.empty(),
+          email: email ?? "",
+          userAgent: userAgent ?? getDefaultUserAgent(),
+          language: language ?? "",
+          proxies: proxies ?? [],
+          timeout: timeout ?? 0,
+          accessTokenLifetime: accessTokenLifetime ?? 0,
+          lastTimeTokenRefreshed: lastTimeTokenRefreshed ?? DateTime.now(),
+          deviceType: deviceType ?? "",
+        );
 
   /// Creates new [TgTgSettings].
   ///
@@ -98,12 +121,6 @@ class TgTgSettings {
   /// The device type used by the [TgTgClient].
   final String? deviceType;
 
-  /// Get a random default user agent.
-  String _getDefaultUserAgent() {
-    final index = Random().nextInt(userAgents().length);
-    return userAgents()[index];
-  }
-
   /// Scraps the Play Store to get the latest version of the app.
   Future<TgTgSettings> getUserAgent() async {
     final version = await GooglePlayScraper().getLastApkVersion();
@@ -114,7 +131,7 @@ class TgTgSettings {
       return copyWith(userAgent: newUserAgent);
     }
 
-    return copyWith(userAgent: _getDefaultUserAgent());
+    return copyWith(userAgent: getDefaultUserAgent());
   }
 
   /// Returns a copy of the current [TgTgSettings] with the provided fields.

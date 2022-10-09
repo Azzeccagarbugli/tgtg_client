@@ -24,9 +24,23 @@ Future<void> main() async {
 
   log(allItems.toString());
 
-  // final itemById = await client.items.getById(
-  //   id: "5f9b5b9b-8b8f-4b9c-8c1c-8c1c8c1c8c1c",
-  // );
+  try {
+    final itemById = await client.items.getById(
+      id: "741575eqe",
+    );
+    log(itemById.toString());
+  } catch (e) {
+    log(e.toString());
+  }
 
-  // log(itemById.toString());
+  final inactiveOrders = await client.orders.getActive();
+
+  log(inactiveOrders.toString());
+
+  final setFavoriteItem = await client.items.setFavorite(
+    id: "884134",
+    isFavorite: true,
+  );
+
+  log(setFavoriteItem.toString());
 }
