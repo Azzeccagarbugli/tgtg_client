@@ -1,6 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:tgtg_client/src/models/address.dart";
-import "package:tgtg_client/src/models/lat_lng.dart";
+import "package:tgtg_client/src/models/items/address.dart";
+import "package:tgtg_client/src/models/items/lat_lng.dart";
 
 part "location.freezed.dart";
 part "location.g.dart";

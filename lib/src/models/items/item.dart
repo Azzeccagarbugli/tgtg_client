@@ -1,9 +1,9 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:tgtg_client/src/models/badge.dart";
-import "package:tgtg_client/src/models/picture.dart";
-import "package:tgtg_client/src/models/price.dart";
-import "package:tgtg_client/src/models/rating.dart";
-import "package:tgtg_client/src/models/sales_tax.dart";
+import 'package:tgtg_client/src/models/items/badge.dart';
+import 'package:tgtg_client/src/models/items/picture.dart';
+import 'package:tgtg_client/src/models/items/price.dart';
+import 'package:tgtg_client/src/models/items/rating.dart';
+import 'package:tgtg_client/src/models/items/sales_tax.dart';
 
 part "item.freezed.dart";
 part "item.g.dart";
