@@ -3,4 +3,5 @@ targets:
     builders:
       json_serializable:
         options:
+          # Snake case rename
           field_rename: snake
