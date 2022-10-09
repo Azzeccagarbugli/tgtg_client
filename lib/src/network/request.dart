@@ -16,7 +16,7 @@ import "package:tgtg_client/src/network/utils.dart";
 /// The internal state of [httpRequest] and [jsonBody] should not be mutated.
 class Request<T> {
   /// Creates a new request.
-  const Request({
+  Request({
     required this.client,
     required this.httpRequest,
     this.jsonBody,
@@ -40,6 +40,27 @@ class Request<T> {
   /// The function used to transform the json response into [T].
   final BodyDeserializer<T>? bodyDeserializer;
 
+  /// The [http.Response] of the last request.
+  http.StreamedResponse? httpResponse;
+
+  /// Updates the cookie in [request] with the one in [response].
+  String _updateCookie(
+    http.StreamedResponse? response,
+    Map<String, String> headers,
+  ) {
+    if (response != null) {
+      final rawCookie = response.headers["set-cookie"];
+      if (rawCookie != null) {
+        final index = rawCookie.indexOf(";");
+        final cookie = rawCookie.substring(0, index);
+
+        return (index == -1) ? rawCookie : cookie;
+      }
+    }
+
+    return "Empty";
+  }
+
   /// Execute this [Request] and return its [Response].
   ///
   /// Might reject with [http.ClientException] during a network failure.
@@ -51,13 +72,13 @@ class Request<T> {
     }
 
     final httpRequest = _prepareRequest();
-    http.StreamedResponse httpResponse;
+
     String body;
     dynamic json;
     T? data;
     httpResponse = await client.httpClient.send(httpRequest);
 
-    body = await httpResponse.stream.bytesToString();
+    body = await httpResponse!.stream.bytesToString();
 
     try {
       json = jsonDecode(body);
@@ -65,7 +86,7 @@ class Request<T> {
       // ignore: avoid_catches_without_on_clauses
     }
 
-    if (httpResponse.statusCode < 400 &&
+    if (httpResponse!.statusCode < 400 &&
         json != null &&
         bodyDeserializer != null) {
       data = bodyDeserializer!(json);
@@ -74,7 +95,7 @@ class Request<T> {
     return Response(
       request: this,
       httpRequest: httpRequest,
-      httpResponse: httpResponse,
+      httpResponse: httpResponse!,
       body: body,
       json: json,
       data: data,
@@ -119,8 +140,14 @@ class Request<T> {
 
     final credentials = client.settings.credentials;
 
+    /// Cookie stored for the following requests.
+    final cookie = _updateCookie(httpResponse, httpRequest.headers);
+
     if (credentials != null && credentials.isAlreadyLogged) {
-      headers.addAll(publicActionAuthHeader(client.settings.credentials!));
+      headers.addAll(publicActionAuthHeader(
+        client.settings.credentials!,
+        cookie,
+      ));
     }
 
     return headers;
