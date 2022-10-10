@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:tgtg_client/src/models/items/location.dart";
 import "package:tgtg_client/src/models/items/picture.dart";
@@ -5,6 +7,10 @@ import "package:tgtg_client/src/models/items/picture.dart";
 part "store.freezed.dart";
 part "store.g.dart";
 
+/// The [Store] contains the relevant information about a [Store].
+///
+/// Each attribute is quite self-explanatory but if
+/// you need any help feel free to [open an issue](https://github.com/Azzeccagarbugli/tgtg_client/issues).
 @freezed
 class Store with _$Store {
   const factory Store({

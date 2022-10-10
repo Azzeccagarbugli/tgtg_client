@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:tgtg_client/src/models/items/location.dart";
 import "package:tgtg_client/src/models/items/price.dart";
@@ -7,6 +9,7 @@ import "package:tgtg_client/src/models/orders/interval.dart";
 part "order.freezed.dart";
 part "order.g.dart";
 
+/// The [Order] contains the relevant information about an [Order].
 @freezed
 class Order with _$Order {
   const factory Order({

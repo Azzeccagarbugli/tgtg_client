@@ -19,33 +19,6 @@ class TgTgClient {
     http.Client? httpClient,
   }) : _http = httpClient ?? http.Client();
 
-  /// The named constructor to sign up
-  /// to the **Too Good Too Go** platform.
-  TgTgClient.signUp({
-    required String email,
-    required String name,
-    required String countryId,
-    required String language,
-    required bool newsletterOptIn,
-    required bool pushNotificationOptIn,
-    required String deviceType,
-    TgTgSettings? settingsEmail,
-    http.Client? httpClient,
-  })  : _http = httpClient ?? http.Client(),
-        settings = settingsEmail ??
-            TgTgSettings.empty(
-              language: language,
-            ) {
-    _signUp(
-      countryId: countryId,
-      email: email,
-      name: name,
-      newsletterOptIn: newsletterOptIn,
-      pushNotificationOptIn: pushNotificationOptIn,
-      deviceType: deviceType,
-    );
-  }
-
   /// The URI for the base url of the Too Good Too Go API.
   final Uri baseUrl = Uri.parse(baseUrlTgTg);
 
@@ -255,7 +228,7 @@ class TgTgClient {
   ///
   /// The client will sign up the provider email
   /// to the **Too Good Too Go** platform.
-  Future<void> _signUp({
+  Future<TgTgCredentials> signUp({
     required String email,
     required String name,
     required String countryId,
@@ -263,6 +236,11 @@ class TgTgClient {
     required bool pushNotificationOptIn,
     required String deviceType,
   }) async {
+    /// Email and credentials must be **not** provided.
+    if (settings.email != null || settings.credentials!.isAlreadyLogged) {
+      throw Exception("You are already logged in.");
+    }
+
     /// Response body.
     Response<TgTgCredentials>? response;
 
@@ -292,15 +270,23 @@ class TgTgClient {
     if (response.isOk) {
       final loginResponse = (response.json
           as Map<String, dynamic>)["login_response"] as Map<String, dynamic>;
-      final c = settings.credentials!;
 
-      c.accessToken = loginResponse["access_token"] as String;
-      c.refreshToken = loginResponse["refresh_token"] as String;
+      final accessToken = loginResponse["access_token"] as String;
+      final refreshToken = loginResponse["refresh_token"] as String;
       // ignore: avoid_dynamic_calls
-      c.userId = loginResponse["startup_data"]["user"]["user_id"] as String;
+      final userId = loginResponse["startup_data"]["user"]["user_id"] as String;
 
       /// Refresh token.
       settings.lastTimeTokenRefreshed = DateTime.now();
+
+      final tgTgCredentials = TgTgCredentials(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        userId: userId,
+      );
+
+      /// Return the [TgTgCredentials].
+      return tgTgCredentials;
     } else {
       throw Exception(
         "${response.statusCode} ${response.body}",

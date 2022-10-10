@@ -18,8 +18,8 @@ class TgTgSettings {
     this.deviceType,
   });
 
-  /// The empty constuctor of the [TgTgSettings] used by the client.
-  TgTgSettings.empty({
+  /// The custom constuctor of the [TgTgSettings] used by the client.
+  TgTgSettings.custom({
     TgTgCredentials? credentials,
     String? email,
     String? userAgent,

@@ -2,8 +2,6 @@ include: package:lint/analysis_options_package.yaml
 
 analyzer:
   exclude:
-    - lib/src/models/orders/*
-    - lib/src/models/items/*
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "test/.test_coverage.dart"
