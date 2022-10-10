@@ -19,6 +19,9 @@ class TgTgClient {
     http.Client? httpClient,
   }) : _http = httpClient ?? http.Client();
 
+  /// An empty client just to allow the [signUp].
+  TgTgClient.empty() : this(settings: TgTgSettings.custom());
+
   /// The URI for the base url of the Too Good Too Go API.
   final Uri baseUrl = Uri.parse(baseUrlTgTg);
 

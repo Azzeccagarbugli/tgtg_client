@@ -4,7 +4,7 @@ import "package:tgtg_client/tgtg_client.dart";
 
 Future<void> main() async {
   final settings = await TgTgSettings.instance(
-    email: "f.coppola1998@gmail.com",
+    email: "batman@waynenterprises.com",
   );
 
   final client = TgTgClient(settings: settings);
