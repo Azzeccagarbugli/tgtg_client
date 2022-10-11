@@ -1,9 +1,9 @@
-# TGTG Client
+![alt Banner of the tgtg_client project](assets/banner.png)
 
 > **Warning**
-> This is a work in progress. It is probably not ready for production use and above all it's an **unofficial project**.
+> this is a work in progress. It is probably not ready for production use and above all it's an **unofficial project**.
 
-[**Too Good To Go**](https://toogoodtogo.com/en-us) is a service that connects customers to restaurants and stores that have surplus unsold food. This is an unofficial client to access their [API](https://apptoogoodtogo.com/swagger-ui.html).
+[**Too Good To Go**](https://toogoodtogo.com/en-us) is a service that connects customers to restaurants and stores that have surplus unsold food. This is an unofficial client to access their [**API**](https://apptoogoodtogo.com/swagger-ui.html).
 
 # Getting started
 
@@ -34,25 +34,27 @@ After the sign-up you will receive an email with a link to confirm your account.
 
 ## Login
 
-Since the `User Agent` used in all the requests will contain the last version number of the app fetched from the [Play Store](https://play.google.com/store/apps/details?id=com.app.tgtg&hl=en&gl=US), you should use the `TgTgSettings.instance` class to create a valid session.
+The login process is similar to the sign-up process. You can use the `login` method to log in to your account.
+
+You can either provide your email _(that is linked to your account)_ or a previous session that you previously used.
 
 ```dart
 // Create a TgTgSettings from a given email
-final settings = await TgTgSettings.instance(
+final settings = const TgTgSettings(
     email: "batman@waynenterprises.com",
 );
 ```
 
 ```dart
 // Credentials from a previous session for instance
-final credentials = TgTgCredentials(
+final credentials = const TgTgCredentials(
     accessToken: "your_access_token",
     refreshToken: "your_refresh_token",
     userId: "your_user_id",
 );
 
 // Create a TgTgSettings from a preobtained credentials
-final settings = await TgTgSettings.instance(
+final settings = const TgTgSettings(
     credentials: credentials,
 );
 ```
@@ -60,7 +62,18 @@ final settings = await TgTgSettings.instance(
 Once you have a valid `TgTgSettings` instance, you can create a `TgTgClient` instance and start to use the client.
 
 ```dart
-final client = TgTgClient(settings);
+final client = TgTgClient(settings: settings);
+```
+
+Moreover, for testing and debugging purposes, you can use the built-in `Logger` to more easily check the status of requests and responses.
+
+By default, the `Logger` is disabled. You can enable it by setting the `enableLogging` property to `true`.
+
+```dart
+final client = TgTgClient(
+    settings: settings,
+    enableLogging: true,
+);
 ```
 
 The first thing that you need to do after creating the client is to **log in**. This will allow you to get a valid `TgTgCredentials` instance _(if you didn't create one on your own)_ that will be used as authentication method in all the requests.
@@ -69,7 +82,7 @@ The first thing that you need to do after creating the client is to **log in**. 
 await client.login();
 ```
 
-After that you use the `login` method you will receive a mail from **Too Good To Go** that you need to confirm to start using the client.
+After that you have used the `login` method you will receive a mail from **Too Good To Go** that you need to confirm to start using the client.
 
 ## Items
 
@@ -90,7 +103,7 @@ final customItems = await client.items.getAll(
 );
 ```
 
-Or you could just fetch a single `item` by its own `ID` by using the `getById` method.
+Or you could just fetch a single `item` by its own `id` by using the `getById` method.
 
 ```dart
 final itemById = await client.items.getById(
@@ -98,6 +111,47 @@ final itemById = await client.items.getById(
 );
 ```
 
+You can also set a favorite `item` by using the `setFavorite` method.
+
+```dart
+final setFavoriteItem = await client.items.setFavorite(
+    id: "42069",
+    isFavorite: true,
+);
+```
+
+## Orders
+
+The `getActive` method will return a list of all the active `orders` that you made.
+
+```dart
+final activeOrders = await client.items.getActive();
+```
+
+On the other hand, the `getInactive` method will return a list of all the past `orders` that you made so far.
+
+```dart
+final inactiveOrders = await client.items.getInactive();
+```
+
+# Documentation
+
+The full documentation of the project is available [here](https://pub.dev/documentation/tgtg_client/latest/). All the methods are documented, and you can easily check the parameters that you can pass to them.
+
 # Example
 
-The provided [example](https://github.com/Azzeccagarbugli/tgtg_client/blob/main/example/lib/main.dart) is a simple CLI app that fetches some `items` and `orders`.
+The provided [example](https://github.com/Azzeccagarbugli/tgtg_client/blob/main/example/lib/main.dart) is a simple CLI app that fetches some `items` and `orders`. You can easily run it by cloning the repository and running the following command.
+
+```bash
+dart example/lib/main.dart
+```
+
+# Limitations
+
+Since this is an **unofficial** project, there are some limitations that you should be aware of:
+
+- The client could be easily blocked by **Too Good To Go** if you make too many requests in a short period of time. This is because the client is not using any kind of rate limiting.
+
+- At the moment, it is not possible to make a purchase using the current implementation.
+
+- The project is still in development and, it is not ready for production use.
