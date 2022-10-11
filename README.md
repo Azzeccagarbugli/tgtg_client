@@ -1,4 +1,4 @@
-![alt Banner of the tgtg_client project](assets/banner.png)
+![alt Banner of the tgtg_client project](https://raw.githubusercontent.com/Azzeccagarbugli/tgtg_client/main/assets/banner.png)
 
 > **Warning**
 > this is a work in progress. It is probably not ready for production use and above all it's an **unofficial project**.
