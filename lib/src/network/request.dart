@@ -1,7 +1,9 @@
 import "dart:convert";
+import "dart:math";
 
 import "package:http/http.dart" as http;
 import "package:tgtg_client/src/client.dart";
+import "package:tgtg_client/src/helpers/helpers.dart";
 import "package:tgtg_client/src/network/response.dart";
 import "package:tgtg_client/src/network/utils.dart";
 
@@ -71,7 +73,7 @@ class Request<T> {
       );
     }
 
-    final httpRequest = _prepareRequest();
+    final httpRequest = await _prepareRequest();
 
     String body;
     dynamic json;
@@ -102,14 +104,18 @@ class Request<T> {
     );
   }
 
-  http.Request _prepareRequest() {
+  Future<http.Request> _prepareRequest() async {
     final request = _copyRequest();
 
     if (jsonBody != null) {
       request.body = jsonEncode(jsonBody);
     }
 
-    request.headers.addAll(_createHeaders());
+    final userAgent = await _getUserAgent();
+
+    request.headers.addAll(_createHeaders(
+      userAgent: userAgent,
+    ));
 
     return request;
   }
@@ -125,9 +131,9 @@ class Request<T> {
     return request;
   }
 
-  Map<String, String> _createHeaders() {
+  Map<String, String> _createHeaders({required String userAgent}) {
     final headers = <String, String>{
-      "User-Agent": client.settings.userAgent!,
+      "User-Agent": userAgent,
       "Accept-Language": client.settings.language!,
       "Accept-Encoding": "gzip",
     };
@@ -151,6 +157,19 @@ class Request<T> {
     }
 
     return headers;
+  }
+
+  /// Scraps the Play Store to get the latest version of the app.
+  Future<String> _getUserAgent() async {
+    final version = await GooglePlayScraper().getLastApkVersion();
+
+    if (version != null) {
+      final index = Random().nextInt(userAgents().length);
+      final newUserAgent = userAgents(version: version)[index];
+      return newUserAgent;
+    }
+
+    return getDefaultUserAgent();
   }
 
   @override

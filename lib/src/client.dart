@@ -1,6 +1,5 @@
-import "dart:developer";
-
 import "package:http/http.dart" as http;
+import "package:tgtg_client/src/logger/logger.dart";
 import "package:tgtg_client/tgtg_client.dart";
 
 /// A client for accessing the **Too Good Too Go** API.
@@ -18,9 +17,6 @@ class TgTgClient {
     required this.settings,
     http.Client? httpClient,
   }) : _http = httpClient ?? http.Client();
-
-  /// An empty client just to allow the [signUp].
-  TgTgClient.empty() : this(settings: TgTgSettings.custom());
 
   /// The URI for the base url of the Too Good Too Go API.
   final Uri baseUrl = Uri.parse(baseUrlTgTg);
@@ -119,16 +115,21 @@ class TgTgClient {
       response = await req.go();
 
       if (response.statusCode == 202) {
-        // ignore: avoid_log
-        log(
-          "\nCheck your mailbox on PC to continue... "
-          "(Mailbox on mobile won't work, if you have installed Too Good Too Go app.)\n",
-        );
+        Logger(
+          title: "Login",
+          description: "Check your mailbox on PC to continue...",
+          level: Level.debug,
+          isActive: true,
+        ).log();
         await Future<dynamic>.delayed(pollingWaitTime);
         continue;
       } else if (response.isOk) {
-        // ignore: avoid_log
-        log("Logged In!");
+        Logger(
+          title: "Login",
+          description: "Login successful!",
+          level: Level.info,
+          isActive: true,
+        ).log();
         final loginResponse = response.json as Map<String, dynamic>;
         final c = settings.credentials!;
 

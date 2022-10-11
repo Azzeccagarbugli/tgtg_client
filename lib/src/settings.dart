@@ -1,98 +1,33 @@
-import "dart:math";
-
 import "package:tgtg_client/src/credentials.dart";
-import "package:tgtg_client/src/helpers/helpers.dart";
+
+/// The defualt language is English.
+const _langEn = "en-UK";
+
+/// The numbers of seconds in a hour multpiplied by 4.
+const _fourHours = 3600 * 4;
+
+/// The default device type is Android.
+const _androidDevice = "ANDROID";
 
 /// The settings for the [UnsplashClient].
 class TgTgSettings {
-  /// Creates a private instance of [TgTgSettings].
-  TgTgSettings._({
+  /// Creates a instance of [TgTgSettings].
+  TgTgSettings({
     this.credentials,
     this.email,
     this.userAgent,
-    this.language,
-    this.proxies,
-    this.timeout,
-    this.accessTokenLifetime,
-    this.lastTimeTokenRefreshed,
-    this.deviceType,
-  });
-
-  /// The custom constuctor of the [TgTgSettings] used by the client.
-  TgTgSettings.custom({
-    TgTgCredentials? credentials,
-    String? email,
-    String? userAgent,
     String? language,
     List<String>? proxies,
     int? timeout,
     int? accessTokenLifetime,
     DateTime? lastTimeTokenRefreshed,
     String? deviceType,
-  }) : this._(
-          credentials: credentials ?? TgTgCredentials.empty(),
-          email: email ?? "",
-          userAgent: userAgent ?? getDefaultUserAgent(),
-          language: language ?? "",
-          proxies: proxies ?? [],
-          timeout: timeout ?? 0,
-          accessTokenLifetime: accessTokenLifetime ?? 0,
-          lastTimeTokenRefreshed: lastTimeTokenRefreshed ?? DateTime.now(),
-          deviceType: deviceType ?? "",
-        );
-
-  /// Creates new [TgTgSettings].
-  ///
-  /// Either one of [credentials] or [email] fields must be provided.
-  static Future<TgTgSettings> instance({
-    TgTgCredentials? credentials,
-    String? email,
-    String? userAgent,
-    String? language,
-    List<String>? proxies,
-    int? timeout,
-    int? accessTokenLifetime,
-    DateTime? lastTimeTokenRefreshed,
-    String? deviceType,
-  }) async {
-    if (credentials == null && email == null) {
-      throw Exception(
-        "Either one of credentials or email fields must be provided.",
-      );
-    }
-
-    credentials ??= TgTgCredentials(
-      accessToken: "",
-      refreshToken: "",
-      userId: "",
-    );
-
-    /// The defualt language is English.
-    const langEn = "en-UK";
-
-    /// The numbers of seconds in a hour multpiplied by 4.
-    const fourHours = 3600 * 4;
-
-    /// The default device type is Android.
-    const androidDevice = "ANDROID";
-
-    return TgTgSettings._(
-      credentials: credentials,
-      email: email,
-      userAgent: userAgent,
-      language: language ?? langEn,
-      proxies: proxies,
-      timeout: timeout,
-      accessTokenLifetime: accessTokenLifetime ?? fourHours,
-      lastTimeTokenRefreshed: lastTimeTokenRefreshed,
-      deviceType: deviceType?.toUpperCase() ?? androidDevice,
-    )._initAsync();
-  }
-
-  /// Perfroams async initialization.
-  Future<TgTgSettings> _initAsync() async {
-    return getUserAgent();
-  }
+  })  : language = language ?? _langEn,
+        proxies = proxies ?? [],
+        timeout = timeout ?? 0,
+        accessTokenLifetime = accessTokenLifetime ?? _fourHours,
+        lastTimeTokenRefreshed = lastTimeTokenRefreshed ?? DateTime.now(),
+        deviceType = deviceType ?? _androidDevice;
 
   /// The credentials used by the [TgTgClient] to authenticate the user.
   final TgTgCredentials? credentials;
@@ -121,19 +56,6 @@ class TgTgSettings {
   /// The device type used by the [TgTgClient].
   final String? deviceType;
 
-  /// Scraps the Play Store to get the latest version of the app.
-  Future<TgTgSettings> getUserAgent() async {
-    final version = await GooglePlayScraper().getLastApkVersion();
-
-    if (version != null) {
-      final index = Random().nextInt(userAgents().length);
-      final newUserAgent = userAgents(version: version)[index];
-      return copyWith(userAgent: newUserAgent);
-    }
-
-    return copyWith(userAgent: getDefaultUserAgent());
-  }
-
   /// Returns a copy of the current [TgTgSettings] with the provided fields.
   TgTgSettings copyWith({
     TgTgCredentials? credentials,
@@ -146,7 +68,7 @@ class TgTgSettings {
     DateTime? lastTimeTokenRefreshed,
     String? deviceType,
   }) {
-    return TgTgSettings._(
+    return TgTgSettings(
       credentials: credentials ?? this.credentials,
       email: email ?? this.email,
       userAgent: userAgent ?? this.userAgent,
