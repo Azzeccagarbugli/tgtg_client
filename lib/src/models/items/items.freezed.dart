@@ -20,7 +20,8 @@ Items _$ItemsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Items {
-  Item? get item => throw _privateConstructorUsedError;
+  @JsonKey(name: "item")
+  Product? get product => throw _privateConstructorUsedError;
   Store? get store => throw _privateConstructorUsedError;
   String? get displayName => throw _privateConstructorUsedError;
   Location? get pickupLocation => throw _privateConstructorUsedError;
@@ -40,7 +41,7 @@ abstract class $ItemsCopyWith<$Res> {
   factory $ItemsCopyWith(Items value, $Res Function(Items) then) =
       _$ItemsCopyWithImpl<$Res>;
   $Res call(
-      {Item? item,
+      {@JsonKey(name: "item") Product? product,
       Store? store,
       String? displayName,
       Location? pickupLocation,
@@ -50,7 +51,7 @@ abstract class $ItemsCopyWith<$Res> {
       bool? inSalesWindow,
       bool? newItem});
 
-  $ItemCopyWith<$Res>? get item;
+  $ProductCopyWith<$Res>? get product;
   $StoreCopyWith<$Res>? get store;
   $LocationCopyWith<$Res>? get pickupLocation;
 }
@@ -65,7 +66,7 @@ class _$ItemsCopyWithImpl<$Res> implements $ItemsCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? item = freezed,
+    Object? product = freezed,
     Object? store = freezed,
     Object? displayName = freezed,
     Object? pickupLocation = freezed,
@@ -76,10 +77,10 @@ class _$ItemsCopyWithImpl<$Res> implements $ItemsCopyWith<$Res> {
     Object? newItem = freezed,
   }) {
     return _then(_value.copyWith(
-      item: item == freezed
-          ? _value.item
-          : item // ignore: cast_nullable_to_non_nullable
-              as Item?,
+      product: product == freezed
+          ? _value.product
+          : product // ignore: cast_nullable_to_non_nullable
+              as Product?,
       store: store == freezed
           ? _value.store
           : store // ignore: cast_nullable_to_non_nullable
@@ -116,13 +117,13 @@ class _$ItemsCopyWithImpl<$Res> implements $ItemsCopyWith<$Res> {
   }
 
   @override
-  $ItemCopyWith<$Res>? get item {
-    if (_value.item == null) {
+  $ProductCopyWith<$Res>? get product {
+    if (_value.product == null) {
       return null;
     }
 
-    return $ItemCopyWith<$Res>(_value.item!, (value) {
-      return _then(_value.copyWith(item: value));
+    return $ProductCopyWith<$Res>(_value.product!, (value) {
+      return _then(_value.copyWith(product: value));
     });
   }
 
@@ -155,7 +156,7 @@ abstract class _$$_ItemsCopyWith<$Res> implements $ItemsCopyWith<$Res> {
       __$$_ItemsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Item? item,
+      {@JsonKey(name: "item") Product? product,
       Store? store,
       String? displayName,
       Location? pickupLocation,
@@ -166,7 +167,7 @@ abstract class _$$_ItemsCopyWith<$Res> implements $ItemsCopyWith<$Res> {
       bool? newItem});
 
   @override
-  $ItemCopyWith<$Res>? get item;
+  $ProductCopyWith<$Res>? get product;
   @override
   $StoreCopyWith<$Res>? get store;
   @override
@@ -184,7 +185,7 @@ class __$$_ItemsCopyWithImpl<$Res> extends _$ItemsCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? item = freezed,
+    Object? product = freezed,
     Object? store = freezed,
     Object? displayName = freezed,
     Object? pickupLocation = freezed,
@@ -195,10 +196,10 @@ class __$$_ItemsCopyWithImpl<$Res> extends _$ItemsCopyWithImpl<$Res>
     Object? newItem = freezed,
   }) {
     return _then(_$_Items(
-      item: item == freezed
-          ? _value.item
-          : item // ignore: cast_nullable_to_non_nullable
-              as Item?,
+      product: product == freezed
+          ? _value.product
+          : product // ignore: cast_nullable_to_non_nullable
+              as Product?,
       store: store == freezed
           ? _value.store
           : store // ignore: cast_nullable_to_non_nullable
@@ -239,7 +240,7 @@ class __$$_ItemsCopyWithImpl<$Res> extends _$ItemsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Items implements _Items {
   const _$_Items(
-      {this.item,
+      {@JsonKey(name: "item") this.product,
       this.store,
       this.displayName,
       this.pickupLocation,
@@ -253,7 +254,8 @@ class _$_Items implements _Items {
       _$$_ItemsFromJson(json);
 
   @override
-  final Item? item;
+  @JsonKey(name: "item")
+  final Product? product;
   @override
   final Store? store;
   @override
@@ -273,7 +275,7 @@ class _$_Items implements _Items {
 
   @override
   String toString() {
-    return 'Items(item: $item, store: $store, displayName: $displayName, pickupLocation: $pickupLocation, itemsAvailable: $itemsAvailable, distance: $distance, favorite: $favorite, inSalesWindow: $inSalesWindow, newItem: $newItem)';
+    return 'Items(product: $product, store: $store, displayName: $displayName, pickupLocation: $pickupLocation, itemsAvailable: $itemsAvailable, distance: $distance, favorite: $favorite, inSalesWindow: $inSalesWindow, newItem: $newItem)';
   }
 
   @override
@@ -281,7 +283,7 @@ class _$_Items implements _Items {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Items &&
-            const DeepCollectionEquality().equals(other.item, item) &&
+            const DeepCollectionEquality().equals(other.product, product) &&
             const DeepCollectionEquality().equals(other.store, store) &&
             const DeepCollectionEquality()
                 .equals(other.displayName, displayName) &&
@@ -300,7 +302,7 @@ class _$_Items implements _Items {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(item),
+      const DeepCollectionEquality().hash(product),
       const DeepCollectionEquality().hash(store),
       const DeepCollectionEquality().hash(displayName),
       const DeepCollectionEquality().hash(pickupLocation),
@@ -325,7 +327,7 @@ class _$_Items implements _Items {
 
 abstract class _Items implements Items {
   const factory _Items(
-      {final Item? item,
+      {@JsonKey(name: "item") final Product? product,
       final Store? store,
       final String? displayName,
       final Location? pickupLocation,
@@ -338,7 +340,8 @@ abstract class _Items implements Items {
   factory _Items.fromJson(Map<String, dynamic> json) = _$_Items.fromJson;
 
   @override
-  Item? get item;
+  @JsonKey(name: "item")
+  Product? get product;
   @override
   Store? get store;
   @override

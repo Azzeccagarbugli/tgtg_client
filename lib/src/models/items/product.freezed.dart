@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'item.dart';
+part of 'product.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,13 +14,14 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Item _$ItemFromJson(Map<String, dynamic> json) {
-  return _Item.fromJson(json);
+Product _$ProductFromJson(Map<String, dynamic> json) {
+  return _Product.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Item {
-  String? get itemId => throw _privateConstructorUsedError;
+mixin _$Product {
+  @JsonKey(name: "item_id")
+  String? get productId => throw _privateConstructorUsedError;
   List<SalesTax>? get salesTaxes => throw _privateConstructorUsedError;
   Price? get taxAmount => throw _privateConstructorUsedError;
   Price? get priceExcludingTaxes => throw _privateConstructorUsedError;
@@ -47,15 +48,15 @@ mixin _$Item {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ItemCopyWith<Item> get copyWith => throw _privateConstructorUsedError;
+  $ProductCopyWith<Product> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ItemCopyWith<$Res> {
-  factory $ItemCopyWith(Item value, $Res Function(Item) then) =
-      _$ItemCopyWithImpl<$Res>;
+abstract class $ProductCopyWith<$Res> {
+  factory $ProductCopyWith(Product value, $Res Function(Product) then) =
+      _$ProductCopyWithImpl<$Res>;
   $Res call(
-      {String? itemId,
+      {@JsonKey(name: "item_id") String? productId,
       List<SalesTax>? salesTaxes,
       Price? taxAmount,
       Price? priceExcludingTaxes,
@@ -91,16 +92,16 @@ abstract class $ItemCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
-  _$ItemCopyWithImpl(this._value, this._then);
+class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
+  _$ProductCopyWithImpl(this._value, this._then);
 
-  final Item _value;
+  final Product _value;
   // ignore: unused_field
-  final $Res Function(Item) _then;
+  final $Res Function(Product) _then;
 
   @override
   $Res call({
-    Object? itemId = freezed,
+    Object? productId = freezed,
     Object? salesTaxes = freezed,
     Object? taxAmount = freezed,
     Object? priceExcludingTaxes = freezed,
@@ -126,9 +127,9 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
     Object? favoriteCount = freezed,
   }) {
     return _then(_value.copyWith(
-      itemId: itemId == freezed
-          ? _value.itemId
-          : itemId // ignore: cast_nullable_to_non_nullable
+      productId: productId == freezed
+          ? _value.productId
+          : productId // ignore: cast_nullable_to_non_nullable
               as String?,
       salesTaxes: salesTaxes == freezed
           ? _value.salesTaxes
@@ -315,12 +316,13 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
-  factory _$$_ItemCopyWith(_$_Item value, $Res Function(_$_Item) then) =
-      __$$_ItemCopyWithImpl<$Res>;
+abstract class _$$_ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
+  factory _$$_ProductCopyWith(
+          _$_Product value, $Res Function(_$_Product) then) =
+      __$$_ProductCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String? itemId,
+      {@JsonKey(name: "item_id") String? productId,
       List<SalesTax>? salesTaxes,
       Price? taxAmount,
       Price? priceExcludingTaxes,
@@ -364,17 +366,17 @@ abstract class _$$_ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
-    implements _$$_ItemCopyWith<$Res> {
-  __$$_ItemCopyWithImpl(_$_Item _value, $Res Function(_$_Item) _then)
-      : super(_value, (v) => _then(v as _$_Item));
+class __$$_ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
+    implements _$$_ProductCopyWith<$Res> {
+  __$$_ProductCopyWithImpl(_$_Product _value, $Res Function(_$_Product) _then)
+      : super(_value, (v) => _then(v as _$_Product));
 
   @override
-  _$_Item get _value => super._value as _$_Item;
+  _$_Product get _value => super._value as _$_Product;
 
   @override
   $Res call({
-    Object? itemId = freezed,
+    Object? productId = freezed,
     Object? salesTaxes = freezed,
     Object? taxAmount = freezed,
     Object? priceExcludingTaxes = freezed,
@@ -399,10 +401,10 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
     Object? averageOverallRating = freezed,
     Object? favoriteCount = freezed,
   }) {
-    return _then(_$_Item(
-      itemId: itemId == freezed
-          ? _value.itemId
-          : itemId // ignore: cast_nullable_to_non_nullable
+    return _then(_$_Product(
+      productId: productId == freezed
+          ? _value.productId
+          : productId // ignore: cast_nullable_to_non_nullable
               as String?,
       salesTaxes: salesTaxes == freezed
           ? _value._salesTaxes
@@ -502,9 +504,9 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Item implements _Item {
-  const _$_Item(
-      {this.itemId,
+class _$_Product extends _Product {
+  const _$_Product(
+      {@JsonKey(name: "item_id") this.productId,
       final List<SalesTax>? salesTaxes,
       this.taxAmount,
       this.priceExcludingTaxes,
@@ -531,12 +533,15 @@ class _$_Item implements _Item {
       : _salesTaxes = salesTaxes,
         _dietCategories = dietCategories,
         _badges = badges,
-        _positiveRatingReasons = positiveRatingReasons;
+        _positiveRatingReasons = positiveRatingReasons,
+        super._();
 
-  factory _$_Item.fromJson(Map<String, dynamic> json) => _$$_ItemFromJson(json);
+  factory _$_Product.fromJson(Map<String, dynamic> json) =>
+      _$$_ProductFromJson(json);
 
   @override
-  final String? itemId;
+  @JsonKey(name: "item_id")
+  final String? productId;
   final List<SalesTax>? _salesTaxes;
   @override
   List<SalesTax>? get salesTaxes {
@@ -614,15 +619,15 @@ class _$_Item implements _Item {
 
   @override
   String toString() {
-    return 'Item(itemId: $itemId, salesTaxes: $salesTaxes, taxAmount: $taxAmount, priceExcludingTaxes: $priceExcludingTaxes, priceIncludingTaxes: $priceIncludingTaxes, valueExcludingTaxes: $valueExcludingTaxes, valueIncludingTaxes: $valueIncludingTaxes, taxationPolicy: $taxationPolicy, showSalesTaxes: $showSalesTaxes, coverPicture: $coverPicture, logoPicture: $logoPicture, name: $name, description: $description, foodHandlingInstructions: $foodHandlingInstructions, canUserSupplyPackaging: $canUserSupplyPackaging, packagingOption: $packagingOption, collectionInfo: $collectionInfo, dietCategories: $dietCategories, itemCategory: $itemCategory, buffet: $buffet, badges: $badges, positiveRatingReasons: $positiveRatingReasons, averageOverallRating: $averageOverallRating, favoriteCount: $favoriteCount)';
+    return 'Product(productId: $productId, salesTaxes: $salesTaxes, taxAmount: $taxAmount, priceExcludingTaxes: $priceExcludingTaxes, priceIncludingTaxes: $priceIncludingTaxes, valueExcludingTaxes: $valueExcludingTaxes, valueIncludingTaxes: $valueIncludingTaxes, taxationPolicy: $taxationPolicy, showSalesTaxes: $showSalesTaxes, coverPicture: $coverPicture, logoPicture: $logoPicture, name: $name, description: $description, foodHandlingInstructions: $foodHandlingInstructions, canUserSupplyPackaging: $canUserSupplyPackaging, packagingOption: $packagingOption, collectionInfo: $collectionInfo, dietCategories: $dietCategories, itemCategory: $itemCategory, buffet: $buffet, badges: $badges, positiveRatingReasons: $positiveRatingReasons, averageOverallRating: $averageOverallRating, favoriteCount: $favoriteCount)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Item &&
-            const DeepCollectionEquality().equals(other.itemId, itemId) &&
+            other is _$_Product &&
+            const DeepCollectionEquality().equals(other.productId, productId) &&
             const DeepCollectionEquality()
                 .equals(other._salesTaxes, _salesTaxes) &&
             const DeepCollectionEquality().equals(other.taxAmount, taxAmount) &&
@@ -671,7 +676,7 @@ class _$_Item implements _Item {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        const DeepCollectionEquality().hash(itemId),
+        const DeepCollectionEquality().hash(productId),
         const DeepCollectionEquality().hash(_salesTaxes),
         const DeepCollectionEquality().hash(taxAmount),
         const DeepCollectionEquality().hash(priceExcludingTaxes),
@@ -699,20 +704,20 @@ class _$_Item implements _Item {
 
   @JsonKey(ignore: true)
   @override
-  _$$_ItemCopyWith<_$_Item> get copyWith =>
-      __$$_ItemCopyWithImpl<_$_Item>(this, _$identity);
+  _$$_ProductCopyWith<_$_Product> get copyWith =>
+      __$$_ProductCopyWithImpl<_$_Product>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ItemToJson(
+    return _$$_ProductToJson(
       this,
     );
   }
 }
 
-abstract class _Item implements Item {
-  const factory _Item(
-      {final String? itemId,
+abstract class _Product extends Product {
+  const factory _Product(
+      {@JsonKey(name: "item_id") final String? productId,
       final List<SalesTax>? salesTaxes,
       final Price? taxAmount,
       final Price? priceExcludingTaxes,
@@ -735,12 +740,14 @@ abstract class _Item implements Item {
       final List<Badge>? badges,
       final List<String>? positiveRatingReasons,
       final Rating? averageOverallRating,
-      final int? favoriteCount}) = _$_Item;
+      final int? favoriteCount}) = _$_Product;
+  const _Product._() : super._();
 
-  factory _Item.fromJson(Map<String, dynamic> json) = _$_Item.fromJson;
+  factory _Product.fromJson(Map<String, dynamic> json) = _$_Product.fromJson;
 
   @override
-  String? get itemId;
+  @JsonKey(name: "item_id")
+  String? get productId;
   @override
   List<SalesTax>? get salesTaxes;
   @override
@@ -789,5 +796,6 @@ abstract class _Item implements Item {
   int? get favoriteCount;
   @override
   @JsonKey(ignore: true)
-  _$$_ItemCopyWith<_$_Item> get copyWith => throw _privateConstructorUsedError;
+  _$$_ProductCopyWith<_$_Product> get copyWith =>
+      throw _privateConstructorUsedError;
 }

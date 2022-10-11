@@ -7,9 +7,9 @@ part of 'items.dart';
 // **************************************************************************
 
 _$_Items _$$_ItemsFromJson(Map<String, dynamic> json) => _$_Items(
-      item: json['item'] == null
+      product: json['item'] == null
           ? null
-          : Item.fromJson(json['item'] as Map<String, dynamic>),
+          : Product.fromJson(json['item'] as Map<String, dynamic>),
       store: json['store'] == null
           ? null
           : Store.fromJson(json['store'] as Map<String, dynamic>),
@@ -25,7 +25,7 @@ _$_Items _$$_ItemsFromJson(Map<String, dynamic> json) => _$_Items(
     );
 
 Map<String, dynamic> _$$_ItemsToJson(_$_Items instance) => <String, dynamic>{
-      'item': instance.item,
+      'item': instance.product,
       'store': instance.store,
       'display_name': instance.displayName,
       'pickup_location': instance.pickupLocation,

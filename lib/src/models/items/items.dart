@@ -1,8 +1,8 @@
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, invalid_annotation_target
 
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:tgtg_client/src/models/items/item.dart";
 import "package:tgtg_client/src/models/items/location.dart";
+import "package:tgtg_client/src/models/items/product.dart";
 import "package:tgtg_client/src/models/items/store.dart";
 
 part "items.freezed.dart";
@@ -17,7 +17,7 @@ part "items.g.dart";
 @freezed
 class Items with _$Items {
   const factory Items({
-    Item? item,
+    @JsonKey(name: "item") Product? product,
     Store? store,
     String? displayName,
     Location? pickupLocation,

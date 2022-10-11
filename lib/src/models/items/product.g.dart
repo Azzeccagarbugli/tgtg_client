@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'item.dart';
+part of 'product.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Item _$$_ItemFromJson(Map<String, dynamic> json) => _$_Item(
-      itemId: json['item_id'] as String?,
+_$_Product _$$_ProductFromJson(Map<String, dynamic> json) => _$_Product(
+      productId: json['item_id'] as String?,
       salesTaxes: (json['sales_taxes'] as List<dynamic>?)
           ?.map((e) => SalesTax.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -60,8 +60,9 @@ _$_Item _$$_ItemFromJson(Map<String, dynamic> json) => _$_Item(
       favoriteCount: json['favorite_count'] as int?,
     );
 
-Map<String, dynamic> _$$_ItemToJson(_$_Item instance) => <String, dynamic>{
-      'item_id': instance.itemId,
+Map<String, dynamic> _$$_ProductToJson(_$_Product instance) =>
+    <String, dynamic>{
+      'item_id': instance.productId,
       'sales_taxes': instance.salesTaxes,
       'tax_amount': instance.taxAmount,
       'price_excluding_taxes': instance.priceExcludingTaxes,
