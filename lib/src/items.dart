@@ -1,6 +1,7 @@
 import "dart:developer";
 
 import "package:http/http.dart" as http;
+import "package:tgtg_client/src/logger/logger.dart";
 import "package:tgtg_client/src/models/items/items.dart";
 import "package:tgtg_client/tgtg_client.dart";
 
@@ -35,6 +36,12 @@ class TgTgItems {
     bool? hiddenOnly = false,
     bool? weCareOnly = false,
   }) async {
+    Logger(
+      title: "Items",
+      description: "Fetching is started...",
+      level: Level.debug,
+      isActive: client.enableLogging,
+    ).log();
     await client.login();
 
     final jsonBody = <String, dynamic>{
@@ -67,6 +74,12 @@ class TgTgItems {
     log(res.httpRequest.toString());
 
     if (res.statusCode == 200) {
+      Logger(
+        title: "Items",
+        description: "The items are fetched successfully!",
+        level: Level.info,
+        isActive: client.enableLogging,
+      ).log();
       return req.goAndGet();
     } else if (res.statusCode == 403) {
       throw Exception(
@@ -81,6 +94,13 @@ class TgTgItems {
 
   /// Fetch an [Item] by a specfied id.
   Future<Items> getById({required String id}) async {
+    Logger(
+      title: "Item by id",
+      description: "Fetching is started...",
+      level: Level.debug,
+      isActive: client.enableLogging,
+    ).log();
+
     await client.login();
 
     final url = baseUrl.resolve(id);
@@ -98,6 +118,12 @@ class TgTgItems {
     final res = await req.go();
 
     if (res.isOk) {
+      Logger(
+        title: "Item by id",
+        description: "The item was fetched successfully!",
+        level: Level.info,
+        isActive: client.enableLogging,
+      ).log();
       return req.goAndGet();
     } else if (res.statusCode == 403) {
       throw Exception(
@@ -115,6 +141,12 @@ class TgTgItems {
     required String id,
     required bool isFavorite,
   }) async {
+    Logger(
+      title: "Set favorite by id",
+      description: "Operation started...",
+      level: Level.debug,
+      isActive: client.enableLogging,
+    ).log();
     await client.login();
 
     final url = baseUrl.resolve("$id/setFavorite");
@@ -131,6 +163,12 @@ class TgTgItems {
     final res = await req.go();
 
     if (res.isOk) {
+      Logger(
+        title: "Set favorite by id",
+        description: "The item was set as favorite successfully!",
+        level: Level.info,
+        isActive: client.enableLogging,
+      ).log();
       return true;
     } else if (res.statusCode == 403) {
       throw Exception(

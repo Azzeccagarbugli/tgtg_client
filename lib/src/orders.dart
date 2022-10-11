@@ -1,6 +1,5 @@
-import "dart:developer";
-
 import "package:http/http.dart" as http;
+import "package:tgtg_client/src/logger/logger.dart";
 import "package:tgtg_client/src/models/orders/orders.dart";
 import "package:tgtg_client/tgtg_client.dart";
 
@@ -19,6 +18,12 @@ class TgTgOrders {
   ///
   /// It will **only** get your active orders.
   Future<Orders> getActive() async {
+    Logger(
+      title: "Active orders",
+      description: "Fetching is started...",
+      level: Level.debug,
+      isActive: client.enableLogging,
+    ).log();
     await client.login();
 
     final jsonBody = <String, dynamic>{
@@ -34,9 +39,13 @@ class TgTgOrders {
 
     final res = await req.go();
 
-    log(res.httpRequest.toString());
-
     if (res.statusCode == 200) {
+      Logger(
+        title: "Orders",
+        description: "The active orders are fetched successfully!",
+        level: Level.info,
+        isActive: client.enableLogging,
+      ).log();
       return req.goAndGet();
     } else if (res.statusCode == 403) {
       throw Exception(
@@ -56,7 +65,14 @@ class TgTgOrders {
     int? page = 0,
     int? pageSize = 20,
   }) async {
+    Logger(
+      title: "Inactive orders",
+      description: "Fetching is started...",
+      level: Level.debug,
+      isActive: client.enableLogging,
+    ).log();
     await client.login();
+
     final url = baseUrl.replace(
       path: "/api/$inactiveOrder",
     );
@@ -78,9 +94,13 @@ class TgTgOrders {
 
     final res = await req.go();
 
-    log(res.httpRequest.toString());
-
     if (res.statusCode == 200) {
+      Logger(
+        title: "Orders",
+        description: "The inactive orders are fetched successfully!",
+        level: Level.info,
+        isActive: client.enableLogging,
+      ).log();
       return req.goAndGet();
     } else if (res.statusCode == 403) {
       throw Exception(

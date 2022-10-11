@@ -1,3 +1,4 @@
+import "package:meta/meta.dart";
 import "package:tgtg_client/src/credentials.dart";
 
 /// The defualt language is English.
@@ -10,12 +11,12 @@ const _fourHours = 3600 * 4;
 const _androidDevice = "ANDROID";
 
 /// The settings for the [UnsplashClient].
+@immutable
 class TgTgSettings {
   /// Creates a instance of [TgTgSettings].
   TgTgSettings({
     this.credentials,
     this.email,
-    this.userAgent,
     String? language,
     List<String>? proxies,
     int? timeout,
@@ -35,9 +36,6 @@ class TgTgSettings {
   /// The email used by the [TgTgClient] to authenticate the user.
   final String? email;
 
-  /// The user agent used by the [TgTgClient] to authenticate the user.
-  final String? userAgent;
-
   /// The language used by the [TgTgClient].
   final String? language;
 
@@ -51,7 +49,7 @@ class TgTgSettings {
   final int? accessTokenLifetime;
 
   /// The [DateTime] when the access token was last refreshed.
-  DateTime? lastTimeTokenRefreshed;
+  final DateTime? lastTimeTokenRefreshed;
 
   /// The device type used by the [TgTgClient].
   final String? deviceType;
@@ -71,7 +69,6 @@ class TgTgSettings {
     return TgTgSettings(
       credentials: credentials ?? this.credentials,
       email: email ?? this.email,
-      userAgent: userAgent ?? this.userAgent,
       language: language ?? this.language,
       proxies: proxies ?? this.proxies,
       timeout: timeout ?? this.timeout,
@@ -84,6 +81,6 @@ class TgTgSettings {
 
   @override
   String toString() {
-    return "TgTgSettings{credentials: $credentials, email: $email, userAgent: $userAgent, language: $language, proxies: $proxies, timeout: $timeout, accessTokenLifetime: $accessTokenLifetime, deviceType: $deviceType}";
+    return "TgTgSettings{credentials: $credentials, email: $email, language: $language, proxies: $proxies, timeout: $timeout, accessTokenLifetime: $accessTokenLifetime, deviceType: $deviceType}";
   }
 }

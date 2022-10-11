@@ -34,7 +34,7 @@ class Logger {
     if (_isActive) {
       dart_log.log(
         level.colorFromLevel(
-          message: "[${DateTime.now()}][$title] • $description",
+          message: "[${DateTime.now()}][${title.toUpperCase()}] • $description",
         ),
       );
     }

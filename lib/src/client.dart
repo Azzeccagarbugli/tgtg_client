@@ -10,19 +10,29 @@ import "package:tgtg_client/tgtg_client.dart";
 class TgTgClient {
   /// Creates a new instance of the [TgTgClient].
   ///
-  /// [settings] must not be `null`.
+  /// [settings] can be created using the [TgTgSettings] class and must not be `null`.
+  ///
+  /// The logger is by default disabled, but can be enabled by setting [enableLogging] to `true`.
   ///
   /// If no [httpClient] is provided, one is created.
   TgTgClient({
     required this.settings,
     http.Client? httpClient,
-  }) : _http = httpClient ?? http.Client();
+    bool? enableLogging,
+  })  : _http = httpClient ?? http.Client(),
+        enableLogging = enableLogging ?? false;
+
+  /// Empty constructor to allow an easier [sign up].
+  TgTgClient.empty()
+      : settings = TgTgSettings(),
+        _http = http.Client(),
+        enableLogging = false;
 
   /// The URI for the base url of the Too Good Too Go API.
   final Uri baseUrl = Uri.parse(baseUrlTgTg);
 
   /// The [TgTgSettings] used by this client.
-  final TgTgSettings settings;
+  TgTgSettings settings;
 
   final http.Client _http;
 
@@ -30,6 +40,9 @@ class TgTgClient {
   http.Client get httpClient => _http;
 
   var _closed = false;
+
+  /// Value indicating whether the logger should be enabled.
+  bool enableLogging;
 
   /// Check if the [http.Client] is closed.
   bool get isClosed => _closed;
@@ -51,8 +64,21 @@ class TgTgClient {
           settings.accessTokenLifetime!;
 
       if (check) {
+        Logger(
+          title: "Refresh token",
+          description: "Token is not expired yet!",
+          level: Level.info,
+          isActive: enableLogging,
+        ).log();
         return;
       }
+
+      Logger(
+        title: "Refresh token",
+        description: "Refreshing token...",
+        level: Level.debug,
+        isActive: enableLogging,
+      ).log();
 
       /// Response body.
       Response<TgTgCredentials>? response;
@@ -74,12 +100,27 @@ class TgTgClient {
       response = await req.go();
 
       if (response.isOk) {
-        final c = settings.credentials!;
         final refreshResponse = response.json as Map<String, dynamic>;
 
-        c.accessToken = refreshResponse["access_token"] as String;
-        c.refreshToken = refreshResponse["refresh_token"] as String;
-        settings.lastTimeTokenRefreshed = DateTime.now();
+        final cred = TgTgCredentials(
+          accessToken: refreshResponse["access_token"] as String,
+          refreshToken: refreshResponse["refresh_token"] as String,
+          userId: settings.credentials!.userId,
+        );
+
+        /// Refresh token.
+        settings.copyWith(
+          credentials: cred,
+          lastTimeTokenRefreshed: DateTime.now(),
+        );
+
+        Logger(
+          title: "Refresh token",
+          description: "Token correctly refreshed!",
+          level: Level.info,
+          isActive: enableLogging,
+        ).log();
+        return;
       } else {
         throw Exception("${response.statusCode} ${response.body}");
       }
@@ -119,27 +160,32 @@ class TgTgClient {
           title: "Login",
           description: "Check your mailbox on PC to continue...",
           level: Level.debug,
-          isActive: true,
+          isActive: enableLogging,
         ).log();
         await Future<dynamic>.delayed(pollingWaitTime);
         continue;
       } else if (response.isOk) {
+        final loginResponse = response.json as Map<String, dynamic>;
+
+        final cred = TgTgCredentials(
+          accessToken: loginResponse["access_token"] as String,
+          refreshToken: loginResponse["refresh_token"] as String,
+          // ignore: avoid_dynamic_calls
+          userId: loginResponse["startup_data"]["user"]["user_id"] as String,
+        );
+
+        /// Setting the token Data and the credentials.
+        settings = settings.copyWith(
+          credentials: cred,
+          lastTimeTokenRefreshed: DateTime.now(),
+        );
+
         Logger(
           title: "Login",
           description: "Login successful!",
           level: Level.info,
-          isActive: true,
+          isActive: enableLogging,
         ).log();
-        final loginResponse = response.json as Map<String, dynamic>;
-        final c = settings.credentials!;
-
-        c.accessToken = loginResponse["access_token"] as String;
-        c.refreshToken = loginResponse["refresh_token"] as String;
-        // ignore: avoid_dynamic_calls
-        c.userId = loginResponse["startup_data"]["user"]["user_id"] as String;
-
-        /// Refresh token.
-        settings.lastTimeTokenRefreshed = DateTime.now();
         return;
       } else {
         // Too many requsts.
@@ -280,13 +326,16 @@ class TgTgClient {
       // ignore: avoid_dynamic_calls
       final userId = loginResponse["startup_data"]["user"]["user_id"] as String;
 
-      /// Refresh token.
-      settings.lastTimeTokenRefreshed = DateTime.now();
-
       final tgTgCredentials = TgTgCredentials(
         accessToken: accessToken,
         refreshToken: refreshToken,
         userId: userId,
+      );
+
+      /// Refresh token.
+      settings = settings.copyWith(
+        credentials: tgTgCredentials,
+        lastTimeTokenRefreshed: DateTime.now(),
       );
 
       /// Return the [TgTgCredentials].

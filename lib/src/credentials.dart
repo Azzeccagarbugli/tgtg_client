@@ -1,10 +1,13 @@
+import "package:meta/meta.dart";
+
 /// Credentials for accessing the **Too Good Too Go** API as a registered user.
 ///
 /// You need to download the [app](https://toogoodtogo.com/en-us/consumer)
 /// in order to create an account and get the credentials.
+@immutable
 class TgTgCredentials {
   /// Creates [TgTgCredentials] from the given arguments.
-  TgTgCredentials({
+  const TgTgCredentials({
     required this.accessToken,
     required this.refreshToken,
     required this.userId,
@@ -12,7 +15,7 @@ class TgTgCredentials {
 
   /// The empty constuctor of the [TgTgCredentials]
   /// used by the [TgTgSettings].
-  TgTgCredentials.empty({
+  const TgTgCredentials.empty({
     String? accessToken,
     String? refreshToken,
     String? userId,
@@ -32,13 +35,13 @@ class TgTgCredentials {
   }
 
   /// The access token of the app these [TgTgCredentials] belong to.
-  String? accessToken;
+  final String? accessToken;
 
   /// The refresh token of the app these [TgTgCredentials] belong to.
-  String? refreshToken;
+  final String? refreshToken;
 
   /// The user ID of the app these [TgTgCredentials] belong to.
-  String? userId;
+  final String? userId;
 
   /// Check if the user is already logged in.
   bool get isAlreadyLogged =>
