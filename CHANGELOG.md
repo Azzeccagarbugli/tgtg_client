@@ -1,3 +1,11 @@
+## 0.0.3
+
+- `Logger` implemented.
+- Better control over the `TgTgClient` instance.
+- Refactor of the `item` model.
+- Fix `signUp` method.
+- Add improved tests.
+
 ## 0.0.2
 
 - Sign up and log in.
