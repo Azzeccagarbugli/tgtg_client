@@ -4,7 +4,7 @@ import "package:tgtg_client/tgtg_client.dart";
 void main() {
   test("Executing requests without any credentials", () async {
     expect(() async {
-      final client = TgTgClient(settings: TgTgSettings.custom());
+      final client = TgTgClient(settings: TgTgSettings());
 
       await client.login();
     }, throwsException);
@@ -13,7 +13,7 @@ void main() {
   test("Executing requests without valid credentials", () async {
     expect(() async {
       final client = TgTgClient(
-        settings: TgTgSettings.custom(
+        settings: TgTgSettings(
           credentials: TgTgCredentials(
             accessToken: "",
             refreshToken: "",
@@ -29,7 +29,7 @@ void main() {
   test("Executing requests after disposed the client", () async {
     expect(() async {
       final client = TgTgClient(
-        settings: TgTgSettings.custom(
+        settings: TgTgSettings(
           credentials: TgTgCredentials(
             accessToken: "",
             refreshToken: "",
