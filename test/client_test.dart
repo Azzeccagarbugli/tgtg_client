@@ -14,7 +14,7 @@ void main() {
     expect(() async {
       final client = TgTgClient(
         settings: TgTgSettings(
-          credentials: TgTgCredentials(
+          credentials: const TgTgCredentials(
             accessToken: "",
             refreshToken: "",
             userId: "",
@@ -30,7 +30,7 @@ void main() {
     expect(() async {
       final client = TgTgClient(
         settings: TgTgSettings(
-          credentials: TgTgCredentials(
+          credentials: const TgTgCredentials(
             accessToken: "",
             refreshToken: "",
             userId: "",
