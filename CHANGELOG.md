@@ -1,3 +1,7 @@
+## 0.0.3+2
+
+- Fix homepage link.
+
 ## 0.0.3+1
 
 - Add banner to the project.
