@@ -40,7 +40,7 @@ You can either provide your email _(that is linked to your account)_ or a previo
 
 ```dart
 // Create a TgTgSettings from a given email
-final settings = const TgTgSettings(
+final settings = TgTgSettings(
     email: "batman@waynenterprises.com",
 );
 ```
