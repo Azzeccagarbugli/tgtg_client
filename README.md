@@ -54,7 +54,7 @@ final credentials = const TgTgCredentials(
 );
 
 // Create a TgTgSettings from a preobtained credentials
-final settings = const TgTgSettings(
+final settings = TgTgSettings(
     credentials: credentials,
 );
 ```
