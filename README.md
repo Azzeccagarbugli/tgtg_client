@@ -65,6 +65,14 @@ Once you have a valid `TgTgSettings` instance, you can create a `TgTgClient` ins
 final client = TgTgClient(settings: settings);
 ```
 
+The first thing that you need to do after creating the client is to **log in**. This will allow you to get a valid `TgTgCredentials` instance _(if you didn't create one on your own)_ that will be used as authentication method in all the requests.
+
+```dart
+await client.login();
+```
+
+After that you have used the `login` method you will receive a mail from **Too Good To Go** that you need to confirm to start using the client.
+
 ### Persisting the session
 
 The `TgTgSettings` class provides also a `directory` attribute that can select a system path where the session will be persisted. This is useful if you want to persist the session and use it later **without** having to log in again using the email.
@@ -80,39 +88,20 @@ final client = TgTgSettings(
 
 In a Flutter application, you can use the [**`getApplicationDocumentsDirectory`**](https://pub.dev/documentation/path_provider/latest/path_provider/getApplicationDocumentsDirectory.html) method from the [**`path_provider`**](https://pub.dev/packages/path_provider) package to get the path to the application documents directory.
 
+> **Note**
+> if you are building a Flutter Web application you should consider checking the status of the [following issue](https://github.com/flutter/flutter/issues/45296).
+
 ```dart
 import "package:path_provider/path_provider.dart";
 
 Future<void> buildSettings() async {
     final dir = await getApplicationDocumentsDirectory();
-
     final tgTgSettings = TgTgSettings(
         email: "batman@waynenterprises.com",
         directory: dir,
     );
 }
 ```
-
-### Debugging
-
-Moreover, for testing and debugging purposes, you can use the built-in `Logger` to more easily check the status of requests and responses.
-
-By default, the `Logger` is disabled. You can enable it by setting the `enableLogging` property to `true`.
-
-```dart
-final client = TgTgClient(
-    settings: settings,
-    enableLogging: true,
-);
-```
-
-The first thing that you need to do after creating the client is to **log in**. This will allow you to get a valid `TgTgCredentials` instance _(if you didn't create one on your own)_ that will be used as authentication method in all the requests.
-
-```dart
-await client.login();
-```
-
-After that you have used the `login` method you will receive a mail from **Too Good To Go** that you need to confirm to start using the client.
 
 ## Items
 
@@ -162,6 +151,19 @@ On the other hand, the `getInactive` method will return a list of all the past `
 
 ```dart
 final inactiveOrders = await client.items.getInactive();
+```
+
+## Debugging
+
+For testing and debugging purposes, you can use the built-in `Logger` to more easily check the status of requests and responses.
+
+By default, the `Logger` is disabled. You can enable it by setting the `enableLogging` property to `true`.
+
+```dart
+final client = TgTgClient(
+    settings: settings,
+    enableLogging: true,
+);
 ```
 
 # Documentation

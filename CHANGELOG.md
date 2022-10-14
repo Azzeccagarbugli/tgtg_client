@@ -1,3 +1,9 @@
+## 0.0.4
+
+- Persistence auth session in a custom directory.
+- Improved readability of `Logger`.
+- General bug fixes.
+
 ## 0.0.3+2
 
 - Fix homepage link.
