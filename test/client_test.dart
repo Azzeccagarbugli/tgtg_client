@@ -14,11 +14,7 @@ void main() {
     expect(() async {
       final client = TgTgClient(
         settings: TgTgSettings(
-          credentials: const TgTgCredentials(
-            accessToken: "",
-            refreshToken: "",
-            userId: "",
-          ),
+          credentials: const TgTgCredentials.empty(),
         ),
       );
 
@@ -30,11 +26,7 @@ void main() {
     expect(() async {
       final client = TgTgClient(
         settings: TgTgSettings(
-          credentials: const TgTgCredentials(
-            accessToken: "",
-            refreshToken: "",
-            userId: "",
-          ),
+          credentials: const TgTgCredentials.empty(),
         ),
       );
 

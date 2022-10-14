@@ -2,7 +2,7 @@ import "package:http/http.dart" as http;
 import "package:tgtg_client/src/logger/logger.dart";
 import "package:tgtg_client/tgtg_client.dart";
 
-/// A client for accessing the **Too Good Too Go** API.
+/// A client for accessing the **Too Good To Go** API.
 ///
 /// Http calls are made through the [http](https://pub.dev/packages/http)
 /// package, which provides a platform independent client, making the
@@ -28,7 +28,7 @@ class TgTgClient {
         _http = http.Client(),
         enableLogging = false;
 
-  /// The URI for the base url of the Too Good Too Go API.
+  /// The URI for the base url of the Too Good To Go API.
   final Uri baseUrl = Uri.parse(baseUrlTgTg);
 
   /// The [TgTgSettings] used by this client.
@@ -109,7 +109,7 @@ class TgTgClient {
         );
 
         /// Refresh token.
-        settings.copyWith(
+        settings = settings.copyWith(
           credentials: cred,
           lastTimeTokenRefreshed: DateTime.now(),
         );
@@ -202,7 +202,7 @@ class TgTgClient {
     throw Exception("Max retries reached. Try again.");
   }
 
-  /// Login to the **Too Good Too Go** API.
+  /// Login to the **Too Good To Go** API.
   ///
   /// The client will retrive the right credentials to
   /// login to the API and will populate the header of
@@ -248,7 +248,7 @@ class TgTgClient {
 
         if (firstLoginReponse["state"] == "TERMS") {
           throw Exception(
-            "This email $email is not linked to a Too Good Too Go account. "
+            "This email $email is not linked to a Too Good To Go account. "
             "Please signup with this email first.",
           );
         } else if (firstLoginReponse["state"] == "WAIT") {
@@ -274,10 +274,10 @@ class TgTgClient {
     }
   }
 
-  /// Sign up to **Too Good Too Go**.
+  /// Sign up to **Too Good To Go**.
   ///
   /// The client will sign up the provider email
-  /// to the **Too Good Too Go** platform.
+  /// to the **Too Good To Go** platform.
   Future<TgTgCredentials> signUp({
     required String email,
     required String name,

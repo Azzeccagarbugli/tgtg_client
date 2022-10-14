@@ -1,6 +1,6 @@
 import "package:meta/meta.dart";
 
-/// Credentials for accessing the **Too Good Too Go** API as a registered user.
+/// Credentials for accessing the **Too Good To Go** API as a registered user.
 ///
 /// You need to download the [app](https://toogoodtogo.com/en-us/consumer)
 /// in order to create an account and get the credentials.

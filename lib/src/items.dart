@@ -1,5 +1,3 @@
-import "dart:developer";
-
 import "package:http/http.dart" as http;
 import "package:tgtg_client/src/logger/logger.dart";
 import "package:tgtg_client/src/models/items/items.dart";
@@ -70,8 +68,6 @@ class TgTgItems {
     );
 
     final res = await req.go();
-
-    log(res.httpRequest.toString());
 
     if (res.statusCode == 200) {
       Logger(
