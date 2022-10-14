@@ -1,5 +1,4 @@
 import "package:http/http.dart" as http;
-import "package:tgtg_client/src/logger/logger.dart";
 import "package:tgtg_client/tgtg_client.dart";
 
 /// A client for accessing the **Too Good To Go** API.
@@ -34,15 +33,15 @@ class TgTgClient {
   /// The [TgTgSettings] used by this client.
   TgTgSettings settings;
 
+  /// Value indicating whether the logger should be enabled.
+  bool enableLogging;
+
   final http.Client _http;
 
   /// Get the [http.Client] used by this client.
   http.Client get httpClient => _http;
 
   var _closed = false;
-
-  /// Value indicating whether the logger should be enabled.
-  bool enableLogging;
 
   /// Check if the [http.Client] is closed.
   bool get isClosed => _closed;
@@ -53,10 +52,14 @@ class TgTgClient {
   /// Provides access to resources related to [Orders].
   TgTgOrders get orders => TgTgOrders(this);
 
+  /// Get the [TgTgAuthManager] used by this client.
+  AuthManager? get _authManager => settings.authManager;
+
   /// Refreshes the access token.
   Future<void> _refreshToken() async {
     /// Refresh token
-    final ltrt = settings.lastTimeTokenRefreshed;
+    final ltrt = settings.lastTimeTokenRefreshed ??
+        await _authManager?.getLastTimeTokenRefreshed();
 
     if (ltrt != null) {
       /// Boolean condition to check if the token is expired.
@@ -123,6 +126,10 @@ class TgTgClient {
         return;
       } else {
         throw Exception("${response.statusCode} ${response.body}");
+      }
+    } else {
+      if (_authManager != null) {
+        await _authManager!.createAuthFile();
       }
     }
   }
@@ -211,19 +218,20 @@ class TgTgClient {
     /// Email from the [TgTgSettings].
     final email = settings.email;
 
-    /// Credentials from the [TgTgSettings].
-    final credentials = settings.credentials;
-
-    if (email == null && credentials == null) {
+    if (email == null && settings.credentials == null && _authManager == null) {
       throw Exception(
         "Either one of credentials or email fields must be provided in order to login.",
       );
     }
 
+    if (_authManager != null && (await _authManager!.isAuthFilePresent)) {
+      settings.credentials = await _authManager?.getCredentialsFromAuth();
+    }
+
     /// Response body.
     Response<TgTgCredentials>? response;
 
-    if (credentials != null && credentials.isAlreadyLogged) {
+    if (settings.credentials != null && settings.credentials!.isAlreadyLogged) {
       await _refreshToken();
     } else {
       final req = Request(
@@ -255,6 +263,9 @@ class TgTgClient {
           await _startPolling(
             pollingId: firstLoginReponse["polling_id"] as String,
           );
+          if (_authManager != null) {
+            await _authManager!.createAuthFile();
+          }
         } else {
           throw Exception(
             "Unknown error with the status code ${response.statusCode}. "

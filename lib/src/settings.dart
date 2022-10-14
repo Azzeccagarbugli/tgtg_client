@@ -1,4 +1,6 @@
-import "package:meta/meta.dart";
+import "dart:io";
+
+import "package:tgtg_client/src/auth_manager.dart";
 import "package:tgtg_client/src/credentials.dart";
 
 /// The defualt language is English.
@@ -11,30 +13,32 @@ const _fourHours = 3600 * 4;
 const _androidDevice = "ANDROID";
 
 /// The settings for the [UnsplashClient].
-@immutable
 class TgTgSettings {
   /// Creates a instance of [TgTgSettings].
   TgTgSettings({
     this.credentials,
     this.email,
+    this.directory,
+    this.lastTimeTokenRefreshed,
     String? language,
     List<String>? proxies,
     int? timeout,
     int? accessTokenLifetime,
-    DateTime? lastTimeTokenRefreshed,
     String? deviceType,
   })  : language = language ?? _langEn,
         proxies = proxies ?? [],
         timeout = timeout ?? 0,
         accessTokenLifetime = accessTokenLifetime ?? _fourHours,
-        lastTimeTokenRefreshed = lastTimeTokenRefreshed ?? DateTime.now(),
         deviceType = deviceType ?? _androidDevice;
 
   /// The credentials used by the [TgTgClient] to authenticate the user.
-  final TgTgCredentials? credentials;
+  TgTgCredentials? credentials;
 
   /// The email used by the [TgTgClient] to authenticate the user.
   final String? email;
+
+  /// The [Directory] used to stote the persistent auth.
+  final Directory? directory;
 
   /// The language used by the [TgTgClient].
   final String? language;
@@ -54,10 +58,22 @@ class TgTgSettings {
   /// The device type used by the [TgTgClient].
   final String? deviceType;
 
+  /// The [AuthManager] used by the [TgTgSettings].
+  AuthManager? get authManager {
+    if (directory != null) {
+      return AuthManager(
+        directory: directory!,
+        tgTgSettings: this,
+      );
+    }
+    return null;
+  }
+
   /// Returns a copy of the current [TgTgSettings] with the provided fields.
   TgTgSettings copyWith({
     TgTgCredentials? credentials,
     String? email,
+    Directory? directory,
     String? userAgent,
     String? language,
     List<String>? proxies,
@@ -69,6 +85,7 @@ class TgTgSettings {
     return TgTgSettings(
       credentials: credentials ?? this.credentials,
       email: email ?? this.email,
+      directory: directory ?? this.directory,
       language: language ?? this.language,
       proxies: proxies ?? this.proxies,
       timeout: timeout ?? this.timeout,
