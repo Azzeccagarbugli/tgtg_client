@@ -65,6 +65,36 @@ Once you have a valid `TgTgSettings` instance, you can create a `TgTgClient` ins
 final client = TgTgClient(settings: settings);
 ```
 
+### Persisting the session
+
+The `TgTgSettings` class provides also a `directory` attribute that can select a system path where the session will be persisted. This is useful if you want to persist the session and use it later **without** having to log in again using the email.
+
+```dart
+import "dart:io";
+
+final client = TgTgSettings(
+    email: "batman@waynenterprises.com",
+    directory: Directory("path/to/the/session"),
+);
+```
+
+In a Flutter application, you can use the [**`getApplicationDocumentsDirectory`**](https://pub.dev/documentation/path_provider/latest/path_provider/getApplicationDocumentsDirectory.html) method from the [**`path_provider`**](https://pub.dev/packages/path_provider) package to get the path to the application documents directory.
+
+```dart
+import "package:path_provider/path_provider.dart";
+
+Future<void> buildSettings() async {
+    final dir = await getApplicationDocumentsDirectory();
+
+    final tgTgSettings = TgTgSettings(
+        email: "batman@waynenterprises.com",
+        directory: dir,
+    );
+}
+```
+
+### Debugging
+
 Moreover, for testing and debugging purposes, you can use the built-in `Logger` to more easily check the status of requests and responses.
 
 By default, the `Logger` is disabled. You can enable it by setting the `enableLogging` property to `true`.
