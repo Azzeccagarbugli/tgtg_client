@@ -1,5 +1,4 @@
 import "package:http/http.dart" as http;
-import "package:tgtg_client/src/models/items/items.dart";
 import "package:tgtg_client/tgtg_client.dart";
 
 /// Provides access to resources related to [Items].
