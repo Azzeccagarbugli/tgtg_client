@@ -1,3 +1,7 @@
+## 0.0.4+2
+
+- Fix examples.
+
 ## 0.0.4+1
 
 - Added `flutter` example.
