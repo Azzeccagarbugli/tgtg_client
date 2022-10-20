@@ -13,7 +13,7 @@ build/
 pubspec.lock
 
 # Real main
-example/lib/dist_main.dart
+example/cli/dist_main.dart
 
 # File credentials JSON
 lib/src/auth
