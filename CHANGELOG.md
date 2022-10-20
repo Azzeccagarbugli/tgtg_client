@@ -1,3 +1,7 @@
+## 0.0.4+1
+
+- Added `flutter` example.
+
 ## 0.0.4
 
 - Persistence auth session in a custom directory.
