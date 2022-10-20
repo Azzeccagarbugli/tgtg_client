@@ -172,10 +172,23 @@ The full documentation of the project is available [here](https://pub.dev/docume
 
 # Example
 
-The provided [example](https://github.com/Azzeccagarbugli/tgtg_client/blob/main/example/lib/main.dart) is a simple CLI app that fetches some `items` and `orders`. You can easily run it by cloning the repository and running the following command.
+The first provided example is a simple desktop application written in [**Flutter**](https://flutter.dev/) that allows you to log in to your account and fetch all available items and the ones that you have saved as favorites.
+
+![alt Banner of the tgtg_client project](https://raw.githubusercontent.com/Azzeccagarbugli/tgtg_client/main/assets/flutter_app.png)
+
+You can run it by cloning the repository and setting it up in **VS Code** _(or in your favorite IDE)_ or running the following command:
+
+> **Note**
+> to update the email value that you want to use to log in to your account.
 
 ```bash
-dart example/lib/main.dart
+flutter run
+```
+
+The second provided [example](https://github.com/Azzeccagarbugli/tgtg_client/blob/main/example/lib/main.dart) is a simple CLI app that fetches some `items` and `orders`. You can easily run it by cloning the repository and running the following command.
+
+```bash
+dart example/cli/main.dart
 ```
 
 # Limitations
