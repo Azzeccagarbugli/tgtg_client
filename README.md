@@ -188,7 +188,7 @@ flutter run
 The second provided [example](https://github.com/Azzeccagarbugli/tgtg_client/blob/main/example/lib/main.dart) is a simple CLI app that fetches some `items` and `orders`. You can easily run it by cloning the repository and running the following command.
 
 ```bash
-dart example/cli/main.dart
+dart example/lib/main.dart
 ```
 
 # Limitations
