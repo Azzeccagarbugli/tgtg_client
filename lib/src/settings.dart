@@ -12,7 +12,7 @@ const _fourHours = 3600 * 4;
 /// The default device type is Android.
 const _androidDevice = "ANDROID";
 
-/// The settings for the [UnsplashClient].
+/// The settings for the [TgTgSettings].
 class TgTgSettings {
   /// Creates a instance of [TgTgSettings].
   TgTgSettings({
